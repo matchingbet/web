@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from '@mui/material'
+import { Box, createTheme, ThemeProvider } from '@mui/material'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
@@ -11,7 +11,9 @@ const theme = createTheme({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <Box bgcolor={"background.default"} color={"text.primary"}>
+        <Component {...pageProps} />
+      </Box>
     </ThemeProvider>
   );
 }
