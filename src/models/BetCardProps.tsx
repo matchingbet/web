@@ -1,9 +1,7 @@
 export default interface BetCardProps {
-  bet: {
-    id: number;
-    title: string;
-    category: string;
-    odd: string;
-    betCounter: string;
-  };
+  id: number;
+  title: string;
+  date: string;
+  hour: string;
+  odds: string;
 }
