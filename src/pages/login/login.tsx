@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid, Button } from "@mui/material";
 import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
 
@@ -22,11 +22,18 @@ export default function Login() {
   const [error, setError] = useState<boolean>(false);
   const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState<boolean>(true);
 
+  const emailRef = useRef<HTMLInputElement>();
+
   useEffect(() => {
     setIsConfirmBtnDisabled(
-      () => !getEmailPattern().test(email) || password.length < 8 || password.length > 12
+      () => !getEmailPattern().test(email) || password.length < 8 || password.length > 16
     );
   }, [email, password])
+
+  useEffect(() => {
+    const ref = emailRef.current;
+    ref?.focus();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +62,7 @@ export default function Login() {
           <TextField
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            inputRef={emailRef}
             type="email"
             label="Email"
             variant="standard"
@@ -87,7 +95,7 @@ export default function Login() {
           />
         </Grid>
 
-        <Grid item xs={12} sx={{ mt: 1 }}>
+        <Grid item xs={12} sx={{ mt: 1, mb: 5 }}>
           <FormControlLabel
             control={
               <Checkbox
@@ -99,12 +107,12 @@ export default function Login() {
           />
         </Grid>
 
-        <Grid item xs={12} sx={{ mt: 8, mb: 1 }}>
+        <Grid item xs={12}>
           <Typography
             gutterBottom
             color="error"
             variant="subtitle2"
-            textAlign="center"
+            align="center"
           >
             {error && (
               <>
@@ -113,6 +121,9 @@ export default function Login() {
               </>
             )}
           </Typography>
+        </Grid>
+
+        <Grid item xs={12} sx={{ mt: 3, mb: 1 }}>
           <Button
             onClick={() => setError(!error)}
             sx={{ fontWeight: "bold", p: 1.3 }}
@@ -129,7 +140,6 @@ export default function Login() {
       <Link
         sx={{ textUnderlineOffset: 2 }}
         color="inherit"
-        target="_blank"
         href="#"
         underline="always"
       >
