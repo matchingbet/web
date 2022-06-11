@@ -1,15 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.scss";
 
-import Header from "../components/header";
+import Header from "../components/Header";
 
 import Container from "@mui/material/Container";
 
-import SearchBets from "../components/search-bets";
-import MostRequestedBets from "../components/most-requested-bets";
 import HomePageItem from "../components/home-page-item";
-import CreateBet from "../components/create-bet";
+import MostRequestedBets from "../components/most-requested-bets";
+import SearchBets from "../components/search-bets";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
