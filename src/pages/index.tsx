@@ -5,11 +5,12 @@ import Header from "../components/Header";
 
 import Container from "@mui/material/Container";
 
-import HomePageItem from "../components/home-page-item";
-import MostRequestedBets from "../components/most-requested-bets";
-import SearchBets from "../components/search-bets";
+import HomePageItem from "../components/HomePageItem/HomePageItem";
+import MostRequestedBets from "../components/MostRequestedBets/MostRequestedBets";
+import SearchBets from "../components/SearchBets";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CreateBet from "../components/CreateBet";
 
 const theme = createTheme({
   typography: {
@@ -66,9 +67,7 @@ const Home: NextPage = () => {
         </HomePageItem>
       </Container>
 
-      <footer>
-        {/* <CreateBet /> */}
-      </footer>
+      <CreateBet />
     </ThemeProvider>
   );
 };
