@@ -4,18 +4,18 @@ import type { AppProps } from 'next/app'
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
   },
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <Box bgcolor={"background.default"} color={"text.primary"}>
+      <Box>
         <Component {...pageProps} />
       </Box>
     </ThemeProvider>
   );
 }
 
-export default MyApp
+export default MyApp;
