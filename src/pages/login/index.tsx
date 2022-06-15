@@ -18,6 +18,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isEmailInvalid, setIsEmailInvalid] = useState<boolean>(false);
+  const [isPasswordInvalid, setIsPasswordInvalid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [saveInformation, setSaveInformation] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -66,24 +68,27 @@ export default function Login() {
           <TextField
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onBlur={() => setIsEmailInvalid(() => !getEmailPattern().test(email))}
             inputRef={emailRef}
             type="email"
             label="Email"
             variant="standard"
+            error={isEmailInvalid}
             required
             fullWidth
-          />
+            />
         </Grid>
-
         <Grid item xs={12} sx={{ mt: 3 }}>
           <TextField
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onBlur={() => setIsPasswordInvalid(() => password.length < 8 || password.length > 16)}
             type={showPassword ? "text" : "password"}
             label="Senha"
             variant="standard"
             required
             fullWidth
+            error={isPasswordInvalid}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -123,7 +128,9 @@ export default function Login() {
           >
             {error && (
               <>
-                <Error sx={{ verticalAlign: "middle", fontSize: "large", mr: 0.8 }} />
+                <Error
+                  sx={{ verticalAlign: "middle", fontSize: "large", mr: 0.8 }}
+                />
                 {errorMessage}
               </>
             )}
@@ -143,7 +150,6 @@ export default function Login() {
           </CustomButton>
         </Grid>
       </Grid>
-
       <Link
         sx={{ textUnderlineOffset: 2 }}
         color="#4A4A4A"

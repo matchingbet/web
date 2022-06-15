@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 
 interface LogoProps {
   size: number;
-  onClick: MouseEventHandler
+  onClick?: MouseEventHandler
 }
 
 export function Logo({ size, onClick }: LogoProps) {
