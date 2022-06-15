@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
   },
 });
 
