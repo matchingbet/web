@@ -43,7 +43,7 @@ export default function Header() {
           <a className="hover:underline">Login</a>
         </Link>
 
-        <Link href="/registro" style={{ paddingLeft: "5px" }}>
+        <Link href="/register" style={{ paddingLeft: "5px" }}>
           <a className="hover:underline">Registro</a>
         </Link>
       </StyledLinkContainer>
