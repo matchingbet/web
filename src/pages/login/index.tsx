@@ -16,46 +16,52 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function Login() {
-  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isEmailInvalid, setIsEmailInvalid] = useState<boolean>(false);
+  const [isUsernameInvalid, setIsUsernameInvalid] = useState<boolean>(false);
   const [isPasswordInvalid, setIsPasswordInvalid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [saveInformation, setSaveInformation] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [error, setError] = useState<boolean>(false);
   const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState<boolean>(true);
 
-  const emailRef = useRef<HTMLInputElement>();
+  const usernameRef = useRef<HTMLInputElement>();
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
-      () => !getEmailPattern().test(email) || password.length < 8 || password.length > 16
+      () =>
+        !getUsernamePattern().test(username) ||
+        password.length < 8 ||
+        password.length > 16
     );
-  }, [email, password])
+  }, [username, password])
 
   useEffect(() => {
-    const ref = emailRef.current;
+    const ref = usernameRef.current;
     ref?.focus();
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const data = {
-      email,
+      username,
       password,
       saveInformation
     }
     console.log(data);
-    setErrorMessage("E-mail ou senha inválidos.");
+    if (!errorMessage) {
+      setErrorMessage("Usuário ou senha inválidos.");
+    } else {
+      setErrorMessage("")
+    }
   }
 
-  const handleClickShowPassword = (showPassword: boolean) => {
+  const handleShowPassword = (showPassword: boolean) => {
     setShowPassword(showPassword);
   };
 
-  const getEmailPattern = (): RegExp => {
-    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const getUsernamePattern = (): RegExp => {
+    return /^[A-Za-z][A-Za-z0-9_]{7,19}$/;
   }
 
   const router = useRouter();
@@ -66,23 +72,29 @@ export default function Login() {
       <Grid container component="form" onSubmit={handleSubmit} sx={{ mt: 10 }}>
         <Grid item xs={12}>
           <TextField
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={() => setIsEmailInvalid(() => !getEmailPattern().test(email))}
-            inputRef={emailRef}
-            type="email"
-            label="Email"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onBlur={() =>
+              setIsUsernameInvalid(() => !getUsernamePattern().test(username))
+            }
+            inputRef={usernameRef}
+            type="text"
+            label="Usuário"
             variant="standard"
-            error={isEmailInvalid}
+            error={isUsernameInvalid}
             required
             fullWidth
-            />
+          />
         </Grid>
         <Grid item xs={12} sx={{ mt: 3 }}>
           <TextField
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onBlur={() => setIsPasswordInvalid(() => password.length < 8 || password.length > 16)}
+            onBlur={() =>
+              setIsPasswordInvalid(
+                () => password.length < 8 || password.length > 16
+              )
+            }
             type={showPassword ? "text" : "password"}
             label="Senha"
             variant="standard"
@@ -94,7 +106,7 @@ export default function Login() {
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={() => handleClickShowPassword(!showPassword)}
+                    onClick={() => handleShowPassword(!showPassword)}
                   >
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
@@ -113,7 +125,7 @@ export default function Login() {
               />
             }
             sx={{
-              color: "#4A4A4A"
+              color: "#4A4A4A",
             }}
             label={"Salvar Informações"}
           />
@@ -126,7 +138,7 @@ export default function Login() {
             variant="subtitle2"
             align="center"
           >
-            {error && (
+            {!!errorMessage && (
               <>
                 <Error
                   sx={{ verticalAlign: "middle", fontSize: "large", mr: 0.8 }}
@@ -139,7 +151,7 @@ export default function Login() {
 
         <Grid item xs={12} sx={{ mt: 3, mb: 1 }}>
           <CustomButton
-            onClick={() => setError(!error)}
+            onSubmit={(e) => handleSubmit(e)}
             sx={{ fontWeight: "bold", p: 1.3 }}
             variant="contained"
             type="submit"
