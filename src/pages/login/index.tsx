@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid, Button } from "@mui/material";
 import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
 
 import { Logo } from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
-import { useRouter } from "next/router";
+import useSecurityStore from "../../stores/SecurityStore";
+import { Credentials } from "../../models/Credentials";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -26,6 +28,8 @@ export default function Login() {
   const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState<boolean>(true);
 
   const usernameRef = useRef<HTMLInputElement>();
+
+  const { login } = useSecurityStore();
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
@@ -54,6 +58,13 @@ export default function Login() {
     } else {
       setErrorMessage("")
     }
+
+    login({ username, password } as Credentials).then((response: any) => {
+      if (response.status === 200) {
+        //resetForm();
+      }
+    })
+      // .catch(err => setErrorMessage(err.message));
   }
 
   const handleShowPassword = (showPassword: boolean) => {
