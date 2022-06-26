@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { Container } from "@mui/system";
-import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
+import { Field, FieldProps, Form, Formik, FormikHelpers, FormikProps } from "formik";
 import * as yup from 'yup';
 import { Logo } from "../components/Logo/Logo";
 
@@ -15,6 +15,11 @@ import { Endpoints } from "../core/constants/endpoints";
 import { User } from "../models/User";
 
 import { userTest } from '../util/mocks/user-mocks';
+import ServerError from "../models/ServerError";
+
+import CircularProgress from '@mui/material/CircularProgress';
+import InputMask from 'react-input-mask';
+import { useRouter } from "next/router";
 
 const Register = () => {
 
@@ -23,25 +28,27 @@ const Register = () => {
     const validationSchema = yup.object({
         firstName: yup
             .string()
-            .required("Nome obrigatorio."),
+            .required("Nome obrigatório."),
         lastName: yup
             .string()
-            .required("Sobrenome obrigatorio."),
+            .required("Sobrenome obrigatório.")
+            .test("cpf-test", "CPF inválido", (value) => true),
         cpf: yup
             .string()
-            .required("CPF obrigatorio."),
+            .required("CPF obrigatório."),
         birthDate: yup
             .date()
-            .required("Data de nascimento obrigatoria."),
+            .required("Data de nascimento obrigatória."),
         email: yup
             .string()
             .email()
-            .required("email obrigatorio."),
+            .required("email obrigatório."),
         password: yup
             .string()
-            .required("password obrigatorio."),
+            .required("password obrigatório."),
         acceptedTerms: yup
             .boolean()
+            .isTrue()
             .required()
     });
 
@@ -90,20 +97,34 @@ const Register = () => {
         height: "75vh"
     })
 
-    const [value, setValue] = useState("");
+    const router = useRouter();
 
     const onSubmit = (
         user: UserCreation,
         { setSubmitting, resetForm }: FormikHelpers<UserCreation>
     ) => {
         setSubmitting(true);
-        http.post(Endpoints.USERS, { userName: userTest.firstName, userEmail: userTest.email, cryptedPass: userTest.password }).then((res) => {
-            console.log(res);
-            setSubmitting(false)
-            resetForm();
-        });
+        http.post<User>(Endpoints.USERS, { userName: user.firstName, userEmail: user.email, cryptedPass: user.password })
+            .then((res: User) => {
+                setSubmitting(false);
+                resetForm();
+                router.push("/");
+            })
+            .catch((err: ServerError) => {
+                setSubmitting(false);
+                console.log(err.userMessage);
+            });
 
     };
+
+    const cpfMask = (value: string) => {
+        return value
+            .replace(/\D/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+            .replace(/(-\d{2})\d+?$/, '$1')
+    }
 
     return (
         <StyledContainer>
@@ -113,7 +134,7 @@ const Register = () => {
                 <div>
                     <Formik
                         initialValues={initialValues}
-                        // validationSchema={validationSchema}
+                        validationSchema={validationSchema}
                         onSubmit={onSubmit}
                     >
                         {(formik: FormikProps<UserCreation>) => (
@@ -151,6 +172,7 @@ const Register = () => {
                                         label="CPF"
                                         variant="standard"
                                         className="form-field"
+                                        value={cpfMask(formik.values.cpf)}
                                         error={formik.touched.cpf && Boolean(formik.errors.cpf)}
                                         helperText={formik.touched.cpf && formik.errors.cpf}
                                     />
@@ -216,8 +238,9 @@ const Register = () => {
                                     className="submit-button-terms"
                                     fullWidth
                                     type="submit"
+                                    disabled={!(formik.isValid && formik.dirty)}
                                 >
-                                    CADASTRAR
+                                    {!formik.isSubmitting ? 'CADASTRAR' : <CircularProgress size={25} color="inherit" />}
                                 </Button>
                             </StyledForm>
                         )}

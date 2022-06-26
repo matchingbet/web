@@ -39,6 +39,7 @@ export class HttpClient {
     private async _handleRequest<T>(requestResponse: Promise<Response>): Promise<T> {
         const response = await requestResponse;
         const body = await response.json() as T;
+        console.log(body);
         return body;
     }
 
