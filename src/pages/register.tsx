@@ -3,24 +3,22 @@ import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { Container } from "@mui/system";
 import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
 import * as yup from 'yup';
-import CustomButton from "../components/CustomButton";
 import { Logo } from "../components/Logo/Logo";
 
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useState } from "react";
+import UserCreation from "../models/UserCreation";
+import { HttpClient } from "../core/http-client-adapter";
 
-interface UserCreation {
-    firstName: string,
-    lastName: string,
-    cpf: string,
-    birthDate: Date,
-    email: string,
-    password: string,
-    acceptedTerms: boolean
-}
+import { Endpoints } from "../core/constants/endpoints";
+import { User } from "../models/User";
+
+import { userTest } from '../util/mocks/user-mocks';
 
 const Register = () => {
+
+    const http = new HttpClient();
 
     const validationSchema = yup.object({
         firstName: yup
@@ -95,11 +93,16 @@ const Register = () => {
     const [value, setValue] = useState("");
 
     const onSubmit = (
-        values: UserCreation,
+        user: UserCreation,
         { setSubmitting, resetForm }: FormikHelpers<UserCreation>
     ) => {
-        console.log(values)
-        resetForm();
+        setSubmitting(true);
+        http.post(Endpoints.USERS, { userName: userTest.firstName, userEmail: userTest.email, cryptedPass: userTest.password }).then((res) => {
+            console.log(res);
+            setSubmitting(false)
+            resetForm();
+        });
+
     };
 
     return (
