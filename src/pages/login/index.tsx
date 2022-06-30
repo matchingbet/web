@@ -14,6 +14,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
     height: "100vh",
     margin: "0 auto",
     padding: "4rem 0 2rem 0",
+  },
+  [theme.breakpoints.up('sm')]: {
+    width: "16rem",
+    height: "100vh",
+    margin: "0 auto",
+    padding: "6rem 0 3rem 0",
   }
 }));
 
@@ -29,7 +35,7 @@ export default function Login() {
 
   const usernameRef = useRef<HTMLInputElement>();
 
-  const { login } = useSecurityStore();
+  // const { login } = useSecurityStore();
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
@@ -59,11 +65,11 @@ export default function Login() {
       setErrorMessage("")
     }
 
-    login({ username, password } as Credentials).then((response: any) => {
-      if (response.status === 200) {
-        //resetForm();
-      }
-    })
+    // login({ username, password } as Credentials).then((response: any) => {
+    //   if (response.status === 200) {
+    //     //resetForm();
+    //   }
+    // })
       // .catch(err => setErrorMessage(err.message));
   }
 
