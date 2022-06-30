@@ -8,11 +8,10 @@ interface LogoProps {
 
 export function Logo({ size, onClick }: LogoProps) {
   return (
-    <div onClick={onClick}>
-      <Avatar
-        sx={{ width: size, height: size, margin: '0 auto' }}
-        src=''
-      />
-    </div>
+    <Avatar
+      onClick={onClick}
+      sx={{ width: size, height: size, margin: "0 auto", cursor: "pointer" }}
+      src=""
+    />
   );
 }
