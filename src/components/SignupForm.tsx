@@ -1,27 +1,25 @@
 import styled from "@emotion/styled";
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
-import { Container } from "@mui/system";
-import { Field, FieldProps, Form, Formik, FormikHelpers, FormikProps } from "formik";
+import {Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
+import {Container} from "@mui/system";
+import {Field, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import * as yup from 'yup';
-import { Logo } from "../components/Logo/Logo";
+import {Logo} from "../components/Logo/Logo";
 
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { useState } from "react";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {HttpClient} from "../core/http-client-adapter";
 import UserCreation from "../models/UserCreation";
-import { HttpClient } from "../core/http-client-adapter";
 
-import { Endpoints } from "../core/constants/endpoints";
-import { User } from "../models/User";
+import {Endpoints} from "../core/constants/endpoints";
+import {User} from "../models/User";
 
-import { userTest } from '../util/mocks/user-mocks';
 import ServerError from "../models/ServerError";
 
 import CircularProgress from '@mui/material/CircularProgress';
-import InputMask from 'react-input-mask';
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
+import RegisterLogo from "./RegisterLogo";
 
-const Register = () => {
+const SignupForm = () => {
 
     const http = new HttpClient();
 
@@ -101,10 +99,10 @@ const Register = () => {
 
     const onSubmit = (
         user: UserCreation,
-        { setSubmitting, resetForm }: FormikHelpers<UserCreation>
+        {setSubmitting, resetForm}: FormikHelpers<UserCreation>
     ) => {
         setSubmitting(true);
-        http.post<User>(Endpoints.USERS, { userName: user.firstName, userEmail: user.email, cryptedPass: user.password })
+        http.post<User>(Endpoints.USERS, {userName: user.firstName, userEmail: user.email, cryptedPass: user.password})
             .then((res: User) => {
                 setSubmitting(false);
                 resetForm();
@@ -129,7 +127,7 @@ const Register = () => {
     return (
         <StyledContainer>
             <StyledPageContainer>
-                <Logo size={125} onClick={() => console.log("cliquei no logo")} />
+                <RegisterLogo/>
 
                 <div>
                     <Formik
@@ -140,41 +138,41 @@ const Register = () => {
                         {(formik: FormikProps<UserCreation>) => (
                             <StyledForm onSubmit={formik.handleSubmit}>
                                 <Field as={TextField}
-                                    key="firstName"
-                                    id="firstName"
-                                    name="firstName"
-                                    label="Nome"
-                                    placeholder="Nome"
-                                    className="form-field"
-                                    variant="standard"
-                                    error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                                    helperText={formik.touched.firstName && formik.errors.firstName} />
+                                       key="firstName"
+                                       id="firstName"
+                                       name="firstName"
+                                       label="Nome"
+                                       placeholder="Nome"
+                                       className="form-field"
+                                       variant="standard"
+                                       error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                                       helperText={formik.touched.firstName && formik.errors.firstName}/>
 
                                 <Field as={TextField}
-                                    key="lastName"
-                                    id="lastName"
-                                    name="lastName"
-                                    type="text"
-                                    placeholder="Sobrenome"
-                                    label="Sobrenome"
-                                    className="form-field"
-                                    variant="standard"
-                                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                                    helperText={formik.touched.lastName && formik.errors.lastName}
+                                       key="lastName"
+                                       id="lastName"
+                                       name="lastName"
+                                       type="text"
+                                       placeholder="Sobrenome"
+                                       label="Sobrenome"
+                                       className="form-field"
+                                       variant="standard"
+                                       error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                                       helperText={formik.touched.lastName && formik.errors.lastName}
                                 />
 
                                 <div className="cpf-birthDate">
                                     <Field as={TextField}
-                                        id="cpf"
-                                        name="cpf"
-                                        type="text"
-                                        placeholder="CPF"
-                                        label="CPF"
-                                        variant="standard"
-                                        className="form-field"
-                                        value={cpfMask(formik.values.cpf)}
-                                        error={formik.touched.cpf && Boolean(formik.errors.cpf)}
-                                        helperText={formik.touched.cpf && formik.errors.cpf}
+                                           id="cpf"
+                                           name="cpf"
+                                           type="text"
+                                           placeholder="CPF"
+                                           label="CPF"
+                                           variant="standard"
+                                           className="form-field"
+                                           value={cpfMask(formik.values.cpf)}
+                                           error={formik.touched.cpf && Boolean(formik.errors.cpf)}
+                                           helperText={formik.touched.cpf && formik.errors.cpf}
                                     />
 
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -182,49 +180,49 @@ const Register = () => {
                                             value={formik.values.birthDate}
                                             label="Data de nascimento"
                                             onChange={(newValue: Date | null, keyboardInputValue?: string | undefined) => {
-                                                formik.setValues({ ...formik.values, birthDate: newValue! });
+                                                formik.setValues({...formik.values, birthDate: newValue!});
                                             }}
                                             renderInput={(params) =>
                                                 <Field as={TextField}
-                                                    id="birthDate"
-                                                    name="birthDate"
-                                                    variant="standard"
-                                                    placeholder="dd/mm/yyyy"
-                                                    className="form-field"
-                                                    {...params}
-                                                    error={formik.touched.birthDate && Boolean(formik.errors.birthDate)} />}
+                                                       id="birthDate"
+                                                       name="birthDate"
+                                                       variant="standard"
+                                                       placeholder="dd/mm/yyyy"
+                                                       className="form-field"
+                                                       {...params}
+                                                       error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}/>}
                                         />
                                     </LocalizationProvider>
                                 </div>
 
                                 <Field as={TextField}
-                                    id="email"
-                                    name="email"
-                                    type="text"
-                                    placeholder="Email"
-                                    label="Email"
-                                    className="form-field"
-                                    variant="standard"
-                                    error={formik.touched.email && Boolean(formik.errors.email)}
-                                    helperText={formik.touched.email && formik.errors.email}
+                                       id="email"
+                                       name="email"
+                                       type="text"
+                                       placeholder="Email"
+                                       label="Email"
+                                       className="form-field"
+                                       variant="standard"
+                                       error={formik.touched.email && Boolean(formik.errors.email)}
+                                       helperText={formik.touched.email && formik.errors.email}
                                 />
 
                                 <Field as={TextField}
-                                    id="password"
-                                    name="password"
-                                    type="text"
-                                    placeholder="Senha"
-                                    label="Senha"
-                                    className="form-field"
-                                    variant="standard"
-                                    error={formik.touched.password && Boolean(formik.errors.password)}
-                                    helperText={formik.touched.password && formik.errors.password}
+                                       id="password"
+                                       name="password"
+                                       type="text"
+                                       placeholder="Senha"
+                                       label="Senha"
+                                       className="form-field"
+                                       variant="standard"
+                                       error={formik.touched.password && Boolean(formik.errors.password)}
+                                       helperText={formik.touched.password && formik.errors.password}
                                 />
 
                                 <FormControlLabel
                                     value="end"
                                     className="submit-button-terms"
-                                    control={<Checkbox id="acceptedTerms" onChange={formik.handleChange} />}
+                                    control={<Checkbox id="acceptedTerms" onChange={formik.handleChange}/>}
                                     sx={{
                                         color: "#4A4A4A"
                                     }}
@@ -240,7 +238,7 @@ const Register = () => {
                                     type="submit"
                                     disabled={!(formik.isValid && formik.dirty)}
                                 >
-                                    {!formik.isSubmitting ? 'CADASTRAR' : <CircularProgress size={25} color="inherit" />}
+                                    {!formik.isSubmitting ? 'CADASTRAR' : <CircularProgress size={25} color="inherit"/>}
                                 </Button>
                             </StyledForm>
                         )}
@@ -251,4 +249,4 @@ const Register = () => {
     )
 }
 
-export default Register;
+export default SignupForm;
