@@ -6,6 +6,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import MailIcon from '@mui/icons-material/Mail';
 import {Button, Typography} from "@mui/material";
 import RegisterLogo from "./RegisterLogo";
+import SocialButton from "./SocialButton";
 
 const StyledPageContainer = styled(Container)({
     display: "flex",
@@ -30,9 +31,6 @@ const StyledTerms = styled(Typography)({
     color: "white"
 })
 
-const StyledButton = styled(Button)({
-    width: "100%"
-})
 
 const StyledLink = styled("a")({
     fontWeight: "bold",
@@ -43,28 +41,53 @@ interface SocialLoginProps {
     setShowSignUpForm: (shouldShowSignUpForm: boolean) => void
 }
 
-const SocialLogin = ({setShowSignUpForm}: SocialLoginProps) => {
+const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
+
+    const onLoginSuccess = (e: any) => {
+        console.log(e);
+    }
+
+    const onLoginFailure = (e: any) => {
+        console.log(e);
+    }
+
     return (
         <StyledPageContainer>
 
             <RegisterLogo/>
 
             <StyledButtons>
-                <StyledButton variant="outlined" startIcon={<GoogleIcon/>}>
+                <SocialButton
+                    variant="outlined"
+                    startIcon={<GoogleIcon/>}
+                    appId={""}
+                    provider={"google"}
+                    onLoginSuccess={onLoginSuccess}
+                    onLoginFailure={onLoginFailure}>
                     ENTRE COM O GOOGLE
-                </StyledButton>
+                </SocialButton>
 
-                <StyledButton variant="outlined" startIcon={<FacebookIcon/>}>
+                <SocialButton
+                    variant="outlined"
+                    startIcon={<FacebookIcon/>}
+                    appId={""}
+                    provider={"facebook"}
+                    onLoginSuccess={onLoginSuccess}
+                    onLoginFailure={onLoginFailure}>
                     ENTRE COM O FACEBOOK
-                </StyledButton>
+                </SocialButton>
 
                 <Typography variant="body1">
                     Ou
                 </Typography>
 
-                <StyledButton variant="outlined" startIcon={<MailIcon/>}>
+                <Button
+                    variant="outlined"
+                    sx={{width: "100%"}}
+                    startIcon={<MailIcon/>}
+                    onClick={() => setShowSignUpForm(true)}>
                     CONTINUE COM O E-MAIL
-                </StyledButton>
+                </Button>
 
                 <Typography variant="body1">
                     Já possui uma conta? <StyledLink onClick={() => setShowSignUpForm(true)}>Faça Login</StyledLink>
@@ -80,4 +103,4 @@ const SocialLogin = ({setShowSignUpForm}: SocialLoginProps) => {
     );
 }
 
-export default SocialLogin
+export default SocialLoginPage;
