@@ -51,31 +51,39 @@ const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
         console.log(e);
     }
 
+    const checkIfNextIsRunningOnBrowserToRenderComponent = typeof window === 'object';
+
     return (
         <StyledPageContainer>
 
             <RegisterLogo/>
 
             <StyledButtons>
-                <SocialButton
-                    variant="outlined"
-                    startIcon={<GoogleIcon/>}
-                    appId={""}
-                    provider={"google"}
-                    onLoginSuccess={onLoginSuccess}
-                    onLoginFailure={onLoginFailure}>
-                    ENTRE COM O GOOGLE
-                </SocialButton>
-
-                <SocialButton
-                    variant="outlined"
-                    startIcon={<FacebookIcon/>}
-                    appId={""}
-                    provider={"facebook"}
-                    onLoginSuccess={onLoginSuccess}
-                    onLoginFailure={onLoginFailure}>
-                    ENTRE COM O FACEBOOK
-                </SocialButton>
+                {
+                    checkIfNextIsRunningOnBrowserToRenderComponent ?
+                        <>
+                            <SocialButton
+                                variant="outlined"
+                                startIcon={<GoogleIcon/>}
+                                appId={"962460859882-55m5ipupp5i9ifc333rudse3at37jupf.apps.googleusercontent.com"}
+                                provider={"google"}
+                                onLoginSuccess={onLoginSuccess}
+                                onLoginFailure={onLoginFailure}
+                                scope={'https://www.googleapis.com/auth/user.gender.read'}>
+                                ENTRE COM O GOOGLE
+                            </SocialButton>
+                            <SocialButton
+                                variant="outlined"
+                                startIcon={<FacebookIcon/>}
+                                appId={""}
+                                provider={"facebook"}
+                                onLoginSuccess={onLoginSuccess}
+                                onLoginFailure={onLoginFailure}>
+                                ENTRE COM O FACEBOOK
+                            </SocialButton>
+                        </>
+                        : null
+                }
 
                 <Typography variant="body1">
                     Ou

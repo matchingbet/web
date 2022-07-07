@@ -1998,7 +1998,7 @@ react-is@^17.0.2:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-social-login@^3.4.15:
+react-social-login@3.4.15:
   version "3.4.15"
   resolved "https://registry.yarnpkg.com/react-social-login/-/react-social-login-3.4.15.tgz#2b2ca7fc3d86e6cc4781c63ce8a3a9dcac4ddd06"
   integrity sha512-orHpoqCYJLVihST/u1M2Dx0U+4154JKhyTcjqvhPgqgqk/cPyrnY5zvkhEBju0h1/mxXBUqVXNM15TvmL2Lv8g==
