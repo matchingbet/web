@@ -1,12 +1,8 @@
-import styled from "@emotion/styled";
-import {Button} from "@mui/material";
 import SocialLogin from "react-social-login";
 
-const SocialButton = ({children, triggerLogin, ...props}: any) => {
+import { StyledButton } from '../styles/buttons'
 
-    const StyledButton = styled(Button)({
-        width: "100%"
-    })
+const SocialButton = ({children, triggerLogin, ...props}: any) => {
 
     return (
         <StyledButton onClick={triggerLogin} {...props}>

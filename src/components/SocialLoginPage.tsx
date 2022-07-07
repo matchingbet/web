@@ -2,11 +2,12 @@ import Container from "@mui/material/Container";
 import styled from "@emotion/styled";
 
 import GoogleIcon from '@mui/icons-material/Google';
-import FacebookIcon from '@mui/icons-material/Facebook';
 import MailIcon from '@mui/icons-material/Mail';
 import {Button, Typography} from "@mui/material";
 import RegisterLogo from "./RegisterLogo";
-import SocialButton from "./SocialButton";
+
+import {useGoogleLogin} from '@react-oauth/google';
+import {StyledButton} from "../styles/buttons";
 
 const StyledPageContainer = styled(Container)({
     display: "flex",
@@ -43,15 +44,19 @@ interface SocialLoginProps {
 
 const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
 
-    const onLoginSuccess = (e: any) => {
-        console.log(e);
-    }
+    // const onLoginSuccess = (e: any) => {
+    //     console.log(e);
+    // }
+    //
+    // const onLoginFailure = (e: any) => {
+    //     console.log(e);
+    // }
 
-    const onLoginFailure = (e: any) => {
-        console.log(e);
-    }
+    const signinWithGoogle = useGoogleLogin({
+        onSuccess: tokenResponse => console.log(tokenResponse),
+    });
 
-    const checkIfNextIsRunningOnBrowserToRenderComponent = typeof window === 'object';
+    // const checkIfNextIsRunningOnBrowserToRenderComponent = typeof window === 'object';
 
     return (
         <StyledPageContainer>
@@ -59,31 +64,27 @@ const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
             <RegisterLogo/>
 
             <StyledButtons>
-                {
-                    checkIfNextIsRunningOnBrowserToRenderComponent ?
-                        <>
-                            <SocialButton
-                                variant="outlined"
-                                startIcon={<GoogleIcon/>}
-                                appId={"962460859882-55m5ipupp5i9ifc333rudse3at37jupf.apps.googleusercontent.com"}
-                                provider={"google"}
-                                onLoginSuccess={onLoginSuccess}
-                                onLoginFailure={onLoginFailure}
-                                scope={'https://www.googleapis.com/auth/user.gender.read'}>
-                                ENTRE COM O GOOGLE
-                            </SocialButton>
-                            <SocialButton
-                                variant="outlined"
-                                startIcon={<FacebookIcon/>}
-                                appId={""}
-                                provider={"facebook"}
-                                onLoginSuccess={onLoginSuccess}
-                                onLoginFailure={onLoginFailure}>
-                                ENTRE COM O FACEBOOK
-                            </SocialButton>
-                        </>
-                        : null
-                }
+
+                <StyledButton
+                    variant="outlined"
+                    startIcon={<GoogleIcon/>}
+                    onClick={() => signinWithGoogle()}>
+                    ENTRE COM O GOOGLE
+                </StyledButton>
+
+                {/*{*/}
+                {/*    checkIfNextIsRunningOnBrowserToRenderComponent ?*/}
+                {/*        // <SocialButton*/}
+                {/*        //     variant="outlined"*/}
+                {/*        //     startIcon={<FacebookIcon/>}*/}
+                {/*        //     appId={""}*/}
+                {/*        //     provider={"facebook"}*/}
+                {/*        //     onLoginSuccess={onLoginSuccess}*/}
+                {/*        //     onLoginFailure={onLoginFailure}>*/}
+                {/*        //     ENTRE COM O FACEBOOK*/}
+                {/*        // </SocialButton>*/}
+                {/*        : null*/}
+                {/*}*/}
 
                 <Typography variant="body1">
                     Ou
