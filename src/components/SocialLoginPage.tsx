@@ -1,13 +1,19 @@
+import React from "react";
 import Container from "@mui/material/Container";
+
 import styled from "@emotion/styled";
-
 import GoogleIcon from '@mui/icons-material/Google';
+// import FacebookIcon from '@mui/icons-material/Facebook';
 import MailIcon from '@mui/icons-material/Mail';
-import {Button, Typography} from "@mui/material";
-import RegisterLogo from "./RegisterLogo";
+import {Typography} from "@mui/material";
 
+import RegisterLogo from "./RegisterLogo";
 import {useGoogleLogin} from '@react-oauth/google';
-import {StyledButton} from "../styles/buttons";
+
+import SimpleButton from "./buttons/SimpleButton";
+import {StyledLink} from "../styles/shared-styles";
+import {useRouter} from "next/router";
+// import SocialButton from '../components/buttons/SocialButton';
 
 const StyledPageContainer = styled(Container)({
     display: "flex",
@@ -27,17 +33,6 @@ const StyledButtons = styled("div")({
     color: "white",
 });
 
-const StyledTerms = styled(Typography)({
-    marginTop: "2vh",
-    color: "white"
-})
-
-
-const StyledLink = styled("a")({
-    fontWeight: "bold",
-    cursor: "pointer"
-})
-
 interface SocialLoginProps {
     setShowSignUpForm: (shouldShowSignUpForm: boolean) => void
 }
@@ -56,6 +51,8 @@ const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
         onSuccess: tokenResponse => console.log(tokenResponse),
     });
 
+    const router = useRouter();
+
     // const checkIfNextIsRunningOnBrowserToRenderComponent = typeof window === 'object';
 
     return (
@@ -65,24 +62,26 @@ const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
 
             <StyledButtons>
 
-                <StyledButton
+                <SimpleButton
                     variant="outlined"
+                    style={{maxWidth: "20rem"}}
                     startIcon={<GoogleIcon/>}
                     onClick={() => signinWithGoogle()}>
                     ENTRE COM O GOOGLE
-                </StyledButton>
+                </SimpleButton>
 
                 {/*{*/}
                 {/*    checkIfNextIsRunningOnBrowserToRenderComponent ?*/}
-                {/*        // <SocialButton*/}
-                {/*        //     variant="outlined"*/}
-                {/*        //     startIcon={<FacebookIcon/>}*/}
-                {/*        //     appId={""}*/}
-                {/*        //     provider={"facebook"}*/}
-                {/*        //     onLoginSuccess={onLoginSuccess}*/}
-                {/*        //     onLoginFailure={onLoginFailure}>*/}
-                {/*        //     ENTRE COM O FACEBOOK*/}
-                {/*        // </SocialButton>*/}
+                {/*        <SocialButton*/}
+                {/*            variant="outlined"*/}
+                {/*            startIcon={<FacebookIcon/>}*/}
+                {/*            appId={""}*/}
+                {/*            style={{ maxWidth: "20rem" }}*/}
+                {/*            provider={"facebook"}*/}
+                {/*            onLoginSuccess={onLoginSuccess}*/}
+                {/*            onLoginFailure={onLoginFailure}>*/}
+                {/*            ENTRE COM O FACEBOOK*/}
+                {/*        </SocialButton>*/}
                 {/*        : null*/}
                 {/*}*/}
 
@@ -90,13 +89,13 @@ const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
                     Ou
                 </Typography>
 
-                <Button
+                <SimpleButton
                     variant="outlined"
-                    sx={{width: "100%"}}
+                    style={{maxWidth: "20rem"}}
                     startIcon={<MailIcon/>}
                     onClick={() => setShowSignUpForm(true)}>
                     CONTINUE COM O E-MAIL
-                </Button>
+                </SimpleButton>
 
                 <Typography variant="body1">
                     Já possui uma conta? <StyledLink onClick={() => setShowSignUpForm(true)}>Faça Login</StyledLink>
@@ -104,9 +103,11 @@ const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
 
             </StyledButtons>
 
-            <StyledTerms variant="body2">
-                Ao cadastrar-se, você aceita os nosssos Termos de Uso e Política de Privacidade
-            </StyledTerms>
+            <Typography variant="body2" color={'white'}>
+                Ao cadastrar-se, você aceita os nosssos
+                <StyledLink onClick={_e => router.push("legal/terms-of-service")}> Termos de Uso </StyledLink> e
+                <StyledLink onClick={_e => router.push("legal/privacy-notice")}> Política de Privacidade </StyledLink>
+            </Typography>
 
         </StyledPageContainer>
     );

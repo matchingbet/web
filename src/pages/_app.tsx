@@ -13,7 +13,7 @@ const theme = createTheme({
 function MyApp({Component, pageProps}: AppProps) {
     return (
         <ThemeProvider theme={theme}>
-            <GoogleOAuthProvider clientId="216054679828-qj27dd0bgcveelk16k4eukqfek11fi4v.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId="962460859882-55m5ipupp5i9ifc333rudse3at37jupf.apps.googleusercontent.com">
                 <Box>
                     <Component {...pageProps} />
                 </Box>

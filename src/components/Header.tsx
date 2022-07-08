@@ -35,7 +35,9 @@ export default function Header() {
   return (
     <StyledHeader>
       <Typography variant="h2">
-        <a className="hover:underline">Matching-bet</a>
+        <Link href="/">
+          <a className="hover:underline">Matching-bet</a>
+        </Link>
       </Typography>
 
       <StyledLinkContainer>
