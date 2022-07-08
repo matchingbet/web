@@ -7,114 +7,13 @@ const StyledBetsList = styled("div")({
   flexDirection: "column",
 });
 
-export default function MostRequestedBets() {
-  const mostRequestedBets: Array<BetCardProps> = [
-    {
-      id: 0,
-      title: "Flamengo x Palmeiras Campeonato Brasileiro",
-      date: "20/07",
-      hour: "11:30",
-      odds: ""
-    },
-    {
-      id: 0,
-      title: "Neymar vai fazer um gol no jogo do PSG x Barcelona.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    }, 
-    {
-      id: 0,
-      title: "Bósnia e Luxemburgo ambos ganham.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },    
-    {
-      id: 0,
-      title: "Bolsonaro perde no segundo turno.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },   
-    {
-      id: 0,
-      title: "Bahia x São Paulo",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    }, 
-    {
-      id: 0,
-      title: "Flamengo x Palmeiras Campeonato Brasileiro",
-      date: "20/07",
-      hour: "11:30",
-      odds: ""
-    },
-    {
-      id: 0,
-      title: "Neymar vai fazer um gol no jogo do PSG x Barcelona.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    }, 
-    {
-      id: 0,
-      title: "Bósnia e Luxemburgo ambos ganham.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },    
-    {
-      id: 0,
-      title: "Bolsonaro perde no segundo turno.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },   
-    {
-      id: 0,
-      title: "Bahia x São Paulo",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },
-    {
-      id: 0,
-      title: "Flamengo x Palmeiras Campeonato Brasileiro",
-      date: "20/07",
-      hour: "11:30",
-      odds: ""
-    },
-    {
-      id: 0,
-      title: "Neymar vai fazer um gol no jogo do PSG x Barcelona.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    }, 
-    {
-      id: 0,
-      title: "Bósnia e Luxemburgo ambos ganham.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },    
-    {
-      id: 0,
-      title: "Bolsonaro perde no segundo turno.",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },   
-    {
-      id: 0,
-      title: "Bahia x São Paulo",
-      date: "10/07",
-      hour: "12:00",
-      odds: ""
-    },  
-  ];
+interface MostRequestedBetsProps {
+  mostRequestedBets: Array<BetCardProps>;
+}
+
+function MostRequestedBets({ mostRequestedBets }: MostRequestedBetsProps) {
+
+  console.log(mostRequestedBets)
 
   return (
     <StyledBetsList>
@@ -124,3 +23,5 @@ export default function MostRequestedBets() {
     </StyledBetsList>
   );
 }
+
+export default MostRequestedBets;

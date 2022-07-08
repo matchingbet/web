@@ -27,7 +27,7 @@ const StyledBox = styled(Box)({
   padding: "1rem .3rem",
   width: "40vw",
   textAlign: "center",
-  ":first-child": {
+  ":first-of-type": {
     backgroundColor: "#503071",
     maxWidth: "15vw",
     width: "10rem",
