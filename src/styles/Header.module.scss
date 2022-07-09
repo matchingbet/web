@@ -1,0 +1,29 @@
+.header {
+    padding: 0;
+    margin: 0;
+    background: #370365;
+
+    color: #FFFFFF;
+
+    height: 8vh;
+
+    padding: 0 5vw;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+
+    .links {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+
+        :last-child {
+            padding-left: 5px;
+        }
+    }
+}
+
