@@ -15,10 +15,9 @@ import BetCardProps from "../models/Bet";
 import {useState} from "react";
 
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const response = await fetch("http://localhost:3000/api/bets");
     const mostRequestedBets = await response.json();
-    console.log(mostRequestedBets)
     return {
         props: {
             mostRequestedBets,

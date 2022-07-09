@@ -41,7 +41,6 @@ export default function MostRequestedBetCard({bet}: BetCardProps) {
     const [expanded, setExpanded] = useState(false);
 
     const {odd, description, innerBets} = bet;
-    console.log(description)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);

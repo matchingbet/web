@@ -70,9 +70,9 @@ export const EventTimeAndExpandMore = styled("div")({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "10rem",
     "p": {
-        margin: 0
+        margin: 0,
+        paddingRight: "10px"
     }
 });
 

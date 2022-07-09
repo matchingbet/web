@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/Link';
 
 import {styled, Typography, useTheme} from "@mui/material";
 import {Logo} from "./Logo/Logo";
