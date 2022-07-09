@@ -32,7 +32,7 @@ export default function SearchBets() {
         id="outlined-basic"
         placeholder="Busque por nome ou código da aposta"
         variant="outlined"
-        sx={{ input: { color: "#ffffff" }, outline: { color: "#ffffff" } }}
+        sx={{ input: { color: "#ffffff" }, outline: { color: "#ffffff" }, background: "linear-gradient(108.8deg, rgba(255, 255, 255, 0.2) 14.74%, rgba(0, 0, 0, 0) 97.96%)" }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start" sx={{ color: "#ffffff" }}>

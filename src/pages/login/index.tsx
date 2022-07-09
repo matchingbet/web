@@ -1,10 +1,21 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid, Button } from "@mui/material";
-import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
+import React, {useEffect, useRef, useState} from "react";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Link,
+  styled,
+  TextField,
+  Typography
+} from "@mui/material";
+import {Error, Visibility, VisibilityOff} from "@mui/icons-material";
 
-import { Logo } from "../../components/Logo/Logo";
+import {Logo} from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -62,7 +73,7 @@ export default function Login() {
 
   return (
     <StyledBox>
-      <Logo size={170} onClick={(e) => router.push("/")} />
+      <Logo size={170} onClick={(_e) => router.push("/")} />
       <Grid container component="form" onSubmit={handleSubmit} sx={{ mt: 10 }}>
         <Grid item xs={12}>
           <TextField

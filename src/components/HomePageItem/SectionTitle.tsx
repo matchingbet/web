@@ -1,9 +1,9 @@
 import { styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import SectionTitlePropos from "../../models/SectionTitlePropos";
+import SectionTitleProps from "../../models/SectionTitleProps";
 import { Button } from '@mui/material';
 
-export default function SectionTitle(props: SectionTitlePropos) {
+export default function SectionTitle(props: SectionTitleProps) {
   const { title, showSeeMore, seeMoreHandler } = props;
 
   const TitleButtonHolder = styled("div")({
