@@ -1,59 +1,24 @@
 import type {NextPage} from "next";
 import Head from "next/head";
 
-import Header from "../components/Header";
+import CustomHeader from "../components/CustomHeader";
 
 import Container from "@mui/material/Container";
 
-import HomePageItem from "../components/home-page-item";
-import MostRequestedBets from "../components/most-requested-bets";
-import SearchBets from "../components/search-bets";
+import HomePageItem from "../components/HomePageItem/HomePageItem";
+import MostRequestedBets from "../components/MostRequestedBets/MostRequestedBets";
+import SearchBets from "../components/SearchBets";
 
-import {createTheme, ThemeProvider} from "@mui/material/styles";
-import BetCardProps from "../models/BetCardProps";
+import {ThemeProvider} from "@mui/material/styles";
+import theme from "../styles/theme";
+import BetCardProps from "../models/Bet";
+import {useState} from "react";
 
-const theme = createTheme({
-    typography: {
-        allVariants: {
-            color: "#ffffff",
-            fontSize: "1rem",
-        },
-    },
-});
-
-theme.typography.body1 = {
-    fontSize: "1.2rem",
-    "@media (min-width:300px)": {
-        fontSize: ".8rem",
-    },
-    "@media (min-width:600px)": {
-        fontSize: "1rem",
-    },
-    color: "white",
-};
-
-theme.typography.h1 = {
-    fontSize: "1.5rem",
-    "@media (min-width:600px)": {
-        fontSize: "1.5rem",
-    },
-    [theme.breakpoints.up("md")]: {
-        fontSize: "1.8rem",
-    },
-    color: "white",
-};
 
 export async function getStaticProps() {
-    const mostRequestedBets: Array<BetCardProps> = [
-        {
-            id: 0,
-            title: "Flamengo x Palmeiras Campeonato Brasileiro",
-            date: "20/07",
-            hour: "11:30",
-            odds: ""
-        }
-    ];
-
+    const response = await fetch("http://localhost:3000/api/bets");
+    const mostRequestedBets = await response.json();
+    console.log(mostRequestedBets)
     return {
         props: {
             mostRequestedBets,
@@ -62,10 +27,17 @@ export async function getStaticProps() {
 }
 
 interface HomePageProps {
-  mostRequestedBets: Array<BetCardProps>;
+    mostRequestedBets: Array<BetCardProps>;
 }
 
 const Home: NextPage<HomePageProps> = ({mostRequestedBets}) => {
+
+    const [listSize, setListSize] = useState(6);
+
+    const seeMoreHandler = () => {
+        setListSize(listSize + 5);
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Head>
@@ -74,7 +46,7 @@ const Home: NextPage<HomePageProps> = ({mostRequestedBets}) => {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
 
-            <Header/>
+            <CustomHeader/>
             <Container>
                 <HomePageItem title="Buscar Apostas">
                     <SearchBets/>
@@ -83,15 +55,13 @@ const Home: NextPage<HomePageProps> = ({mostRequestedBets}) => {
                 <HomePageItem
                     title="Apostas mais acessadas"
                     showSeeMore={true}
-                    seeMoreHandler={() => console.log("cliquei em ver todas")}
+                    seeMoreHandler={seeMoreHandler}
                 >
-                    <MostRequestedBets mostRequestedBets={mostRequestedBets}/>
+                    <MostRequestedBets mostRequestedBets={mostRequestedBets} size={listSize}/>
                 </HomePageItem>
             </Container>
 
-            <footer>
-                {/* <CreateBet /> */}
-            </footer>
+            {/*<CreateBet/>*/}
         </ThemeProvider>
     );
 };
