@@ -2,7 +2,7 @@ import CustomHeader from "../../components/CustomHeader";
 import Container from "@mui/material/Container";
 import {styled, ThemeProvider} from "@mui/system";
 import theme from "../../styles/theme";
-import Link from 'next/Link'
+import Link from 'next/link'
 
 const StyledContainer = styled(Container)({
     color: "white"
