@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid } from "@mui/material";
 import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
 
-import { Logo } from "../../components/Logo/Logo";
+import {Logo} from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
 import useSecurityStore from "../../stores/SecurityStore";
 import { Credentials } from "../../models/Credentials";
@@ -85,7 +85,7 @@ export default function Login() {
 
   return (
     <StyledBox>
-      <Logo size={170} onClick={(_e) => router.push("/")} />
+      <Logo size={170} onClick={(__e) => router.push("/")} />
       <Grid container component="form" onSubmit={handleSubmit} sx={{ mt: 10 }}>
         <Grid item xs={12}>
           <TextField
