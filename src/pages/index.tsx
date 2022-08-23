@@ -10,9 +10,10 @@ import MostRequestedBets from "../components/MostRequestedBets/MostRequestedBets
 import SearchBets from "../components/SearchBets";
 
 import {ThemeProvider} from "@mui/material/styles";
-import theme from "../styles/theme";
+import { theme } from "../styles/theme";
 import BetCardProps from "../models/Bet";
 import {useState} from "react";
+import CreateBet from "../components/CreateBetButton";
 
 
 export async function getServerSideProps() {
@@ -60,7 +61,7 @@ const Home: NextPage<HomePageProps> = ({mostRequestedBets}) => {
                 </HomePageItem>
             </Container>
 
-            {/*<CreateBet/>*/}
+            <CreateBet/>
         </ThemeProvider>
     );
 };

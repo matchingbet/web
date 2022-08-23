@@ -1,12 +1,6 @@
 import {createTheme} from "@mui/material/styles";
 
-const theme = createTheme({
-    typography: {
-        allVariants: {
-            color: "#ffffff",
-            fontSize: "1rem",
-        },
-    },
+export const theme = createTheme({
 });
 
 theme.typography.body1 = {
@@ -19,7 +13,7 @@ theme.typography.body1 = {
     "@media (min-width:600px)": {
         fontSize: "1rem",
     },
-    color: "white",
+    color: "#ffffff",
 };
 
 theme.typography.h1 = {
@@ -30,7 +24,41 @@ theme.typography.h1 = {
     [theme.breakpoints.up("md")]: {
         fontSize: "1.8rem",
     },
-    color: "white",
+    color: "#ffffff",
 };
 
-export default theme;
+theme.typography.h2 = {
+    "@media (min-width:600px)": {
+        fontSize: "1.5rem",
+    },
+    [theme.breakpoints.up("md")]: {
+        fontSize: "1.8rem",
+    },
+    fontSize: "1rem",
+    color: "#ffffff",
+};
+
+export const internalTheme = createTheme({
+});
+
+internalTheme.typography.h1 = {
+    fontSize: "1.5rem",
+    "@media (min-width:600px)": {
+        fontSize: "1.5rem",
+    },
+    [internalTheme.breakpoints.up("md")]: {
+        fontSize: "1.8rem",
+    },
+    color: "#ffffff",
+};
+
+internalTheme.typography.h2 = {
+    "@media (min-width:600px)": {
+        fontSize: "1.5rem",
+    },
+    [internalTheme.breakpoints.up("md")]: {
+        fontSize: "1.8rem",
+    },
+    fontSize: "1rem",
+    color: "#ffffff",
+};
