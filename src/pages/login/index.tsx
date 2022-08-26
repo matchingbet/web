@@ -35,7 +35,7 @@ export default function Login() {
 
   const usernameRef = useRef<HTMLInputElement>();
 
-  const { login } = useSecurityStore();
+  const { login, token } = useSecurityStore();
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
@@ -53,21 +53,26 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      username,
-      password,
-      saveInformation
-    }
-    console.log(data);
+
     if (!errorMessage) {
       setErrorMessage("Usuário ou senha inválidos.");
     } else {
       setErrorMessage("")
     }
 
-    login({ username, password } as Credentials).then((response: any) => {
-      if (response.status === 200) {
-        //resetForm();
+    login({ username, password } as Credentials)
+      .then((response: any) => {
+        if (response.status === 200) {
+          setUsername('');
+          setPassword('');
+          setShowPassword(false);
+          setSaveInformation(false);
+          setErrorMessage('');
+          setIsConfirmBtnDisabled(true);
+
+          console.log(token);
+
+          router.push("/");
       }
     })
       .catch(err => setErrorMessage(err.message));
@@ -89,7 +94,7 @@ export default function Login() {
       <Grid container component="form" onSubmit={handleSubmit} sx={{ mt: 10 }}>
         <Grid item xs={12}>
           <TextField
-            value={username}
+            value={"tiago.luks@gmail.com"}
             onChange={(e) => setUsername(e.target.value)}
             onBlur={() =>
               setIsUsernameInvalid(() => !getUsernamePattern().test(username))
@@ -105,7 +110,7 @@ export default function Login() {
         </Grid>
         <Grid item xs={12} sx={{ mt: 3 }}>
           <TextField
-            value={password}
+            value={"123456"}
             onChange={(e) => setPassword(e.target.value)}
             onBlur={() =>
               setIsPasswordInvalid(
@@ -172,7 +177,7 @@ export default function Login() {
             sx={{ fontWeight: "bold", p: 1.3 }}
             variant="contained"
             type="submit"
-            disabled={isConfirmBtnDisabled}
+            disabled={false}
             fullWidth
           >
             ENTRAR

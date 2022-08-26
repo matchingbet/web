@@ -12,7 +12,7 @@ const useSecurityStore = create<SecurityStore>(
       logged: false,
       token: undefined,
       login: async (credentials: Credentials) => {
-        const response = await HttpClient.post("/api/login", credentials);
+        const response = await HttpClient.post("/oauth/token", credentials);
         if (response.status === 200) {
           const authToken = response.headers.get("Authorization");
           const user = await response.json();
