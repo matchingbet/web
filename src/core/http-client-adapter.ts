@@ -18,7 +18,7 @@ export class HttpClient {
     }
 
     post<T>(endpoint: string, body: any, options?: any): Promise<T> {
-        return HttpClient._handleRequest<T>(fetch(`${this._baseUrl}/${endpoint}`, {
+        return HttpClient._handleRequest<T>(fetch(`${this._baseUrl}${endpoint}`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {

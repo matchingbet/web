@@ -35,7 +35,7 @@ export default function Login() {
 
   const usernameRef = useRef<HTMLInputElement>();
 
-  const { login, token } = useSecurityStore();
+  const { login, token, logged } = useSecurityStore();
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
@@ -59,23 +59,27 @@ export default function Login() {
     } else {
       setErrorMessage("")
     }
+    /*
+      tiago.luks@gmail.com
+      123456
+    */
+    
+    login({ username, password } as Credentials);
+    
+    if (logged) {
+      setUsername('');
+      setPassword('');
+      setShowPassword(false);
+      setSaveInformation(false);
+      setErrorMessage('');
+      setIsConfirmBtnDisabled(true);
 
-    login({ username, password } as Credentials)
-      .then((response: any) => {
-        if (response.status === 200) {
-          setUsername('');
-          setPassword('');
-          setShowPassword(false);
-          setSaveInformation(false);
-          setErrorMessage('');
-          setIsConfirmBtnDisabled(true);
+      console.log(token);
 
-          console.log(token);
-
-          router.push("/");
-      }
-    })
-      .catch(err => setErrorMessage(err.message));
+      router.push("/");
+    } else {
+      //setErrorMessage(err.message)
+    }
   }
 
   const handleShowPassword = (showPassword: boolean) => {
@@ -94,7 +98,7 @@ export default function Login() {
       <Grid container component="form" onSubmit={handleSubmit} sx={{ mt: 10 }}>
         <Grid item xs={12}>
           <TextField
-            value={"tiago.luks@gmail.com"}
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             onBlur={() =>
               setIsUsernameInvalid(() => !getUsernamePattern().test(username))
@@ -110,7 +114,7 @@ export default function Login() {
         </Grid>
         <Grid item xs={12} sx={{ mt: 3 }}>
           <TextField
-            value={"123456"}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             onBlur={() =>
               setIsPasswordInvalid(
