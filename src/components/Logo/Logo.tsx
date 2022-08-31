@@ -1,9 +1,9 @@
-import { Avatar } from "@mui/material";
-import { MouseEventHandler } from "react";
+import {Avatar} from "@mui/material";
+import {MouseEventHandler} from "react";
 
 interface LogoProps {
-  size: number;
-  onClick?: MouseEventHandler
+    size: number;
+    onClick?: MouseEventHandler,
 }
 
 export function Logo({ size, onClick }: LogoProps) {

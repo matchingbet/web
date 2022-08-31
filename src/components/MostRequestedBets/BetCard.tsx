@@ -1,85 +1,101 @@
-import { Box, Card, CardContent, styled, Typography } from "@mui/material";
-import BetCardProps from "../../models/BetCardProps";
+import {Collapse, Typography} from "@mui/material";
+import Bet from "../../models/Bet";
+import React, {useState} from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+    BodyCardContent,
+    Description,
+    DescriptionLine,
+    EventTimeAndExpandMore,
+    ExpandMore,
+    HeaderButton,
+    Odd,
+    StyledCard,
+    StyledCardContentHeader,
+    StyledTypography
+} from "./BetCardStyles";
 
-export default function MostRequestedBetCard(props: { bet: BetCardProps }) {
 
-  const StyledCard = styled(Card)({
-    backgroundColor: "transparent",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    margin: "5px 0",
-    border: `1px solid white`,
-  });
+interface BetCardProps {
+    bet: Bet
+}
 
-  const StyledCardContent = styled(CardContent)({
-    padding: "0 !important",
-    display: "flex",
-    justifyContent: "space-between",
-  });
+const DescriptionOdd = ({description, odd, ...style}: { description: string, odd: number, style?: {} }) => {
 
-  const StyledBox = styled(Box)({
-    padding: "1rem .3rem",
-    width: "40vw",
-    textAlign: "center",
-    ":first-of-type": {
-      backgroundColor: "#503071",
-      maxWidth: "15vw",
-      width: "10rem",
-      "@media (min-width:300px)": {
-        width: "5rem",
-        minWidth: "15vw",
-      },
-      "@media (min-width:600px)": {
-        width: "12rem",
-        minWidth: "10vw",
-      },
-    },
-    ":last-child": {
-      backgroundColor: "#503071",
-      "@media (min-width:300px)": {
-        width: "6rem",
-      },
-      "@media (min-width:600px)": {
-        width: "12rem",
-      },
-    },
-  });
+    return (
+        <DescriptionLine {...style}>
+            <Description>
+                <Typography paragraph={true}>
+                    {description.slice(0, 80)}
+                </Typography>
+            </Description>
+            <Odd>
+                {odd}
+            </Odd>
+        </DescriptionLine>
+    );
+}
 
-  const { title, date, hour, odds } = props.bet;
-  return (
-    <StyledCard>
-      <StyledCardContent>
-        <StyledBox>
-          <Typography variant={"body1"} gutterBottom>
-            {date}
-          </Typography>
-          <Typography variant={"body1"} gutterBottom>
-            {hour}
-          </Typography>
-        </StyledBox>
+export default function MostRequestedBetCard({bet}: BetCardProps) {
 
-        <StyledBox>
-          <Typography variant={"body1"} gutterBottom>
-            {title}
-          </Typography>
-        </StyledBox>
+    const [expanded, setExpanded] = useState(false);
 
-        <StyledBox>
-          <Typography variant={"body1"} gutterBottom>
-            {"1"} {"X"} {"2"}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: 12,
-            }}
-            variant={"body1"}
-            gutterBottom
-          >
-            {"1.2"} {"2.5"} {"1.3"}
-          </Typography>
-        </StyledBox>
-      </StyledCardContent>
-    </StyledCard>
-  );
+    const {odd, description, innerBets} = bet;
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
+    return (
+        <StyledCard>
+            <StyledCardContentHeader onClick={handleExpandClick}>
+                <HeaderButton>
+                    <StyledTypography variant="body2">
+                        Futebol
+                    </StyledTypography>
+
+                    <EventTimeAndExpandMore>
+                        <StyledTypography paragraph={true}>
+                            10/07 - 12:00
+                        </StyledTypography>
+                        {innerBets && innerBets.length > 0 ? <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more">
+                            <ExpandMoreIcon/>
+                        </ExpandMore> : null}
+                    </EventTimeAndExpandMore>
+                </HeaderButton>
+            </StyledCardContentHeader>
+
+            {
+                innerBets && innerBets.length > 0 ?
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <BodyCardContent>
+                            {innerBets ? innerBets.map(({id, description, odd}) => {
+                                return (
+                                    <DescriptionOdd
+                                        key={id}
+                                        style={{
+                                            marginBottom: '5px'
+                                        }}
+                                        description={description}
+                                        odd={odd}/>
+                                )
+                            }) : null}
+
+
+                        </BodyCardContent>
+                    </Collapse> :
+                    null
+            }
+
+            <BodyCardContent>
+                <DescriptionOdd
+                    description={description}
+                    odd={odd}/>
+            </BodyCardContent>
+        </StyledCard>
+    );
 }
