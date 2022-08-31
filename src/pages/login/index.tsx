@@ -7,6 +7,7 @@ import {Logo} from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
 import useSecurityStore from "../../stores/SecurityStore";
 import { Credentials } from "../../models/Credentials";
+import { AuthService } from "../../services/AuthService";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -35,8 +36,6 @@ export default function Login() {
 
   const usernameRef = useRef<HTMLInputElement>();
 
-  const { login } = useSecurityStore();
-
   useEffect(() => {
     setIsConfirmBtnDisabled(
       () =>
@@ -64,8 +63,8 @@ export default function Login() {
     } else {
       setErrorMessage("")
     }
-
-    login({ username, password } as Credentials).then((response: any) => {
+    const authService = new AuthService();
+    authService.login({ username, password } as Credentials).then((response: any) => {
       if (response.status === 200) {
         //resetForm();
       }

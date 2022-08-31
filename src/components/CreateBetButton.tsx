@@ -21,7 +21,7 @@ export default function CreateBetButton() {
   });
 
   return (
-    <StyledBottomNavigation>
+    <div>
       {/* <BottomNavigationAction 
         label="Criar Aposta"
 
@@ -29,10 +29,10 @@ export default function CreateBetButton() {
         <Button 
           style={{margin: "20px 0 20px 0",}} 
           variant="contained" 
-          size="small" 
+          size="small"
           onClick={_e => router.push("create-bet")}>
           Criar bet
         </Button>
-    </StyledBottomNavigation>
+    </div>
   );
 }

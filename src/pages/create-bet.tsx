@@ -1,26 +1,28 @@
-import { TextField, ThemeProvider, Typography } from "@mui/material";
+import { Button, TextField, ThemeProvider, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/system";
 import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
 import * as yup from 'yup';
 import CustomHeader from "../components/CustomHeader";
-import { internalTheme } from "../styles/theme";
+import SectionTitle from "../components/SectionTitle";
 
-const CreateBetPage = () => {
-    return (
-        <ThemeProvider theme={internalTheme}>
-            <CustomHeader />
-            <Container>
-                <CreateBetForm />
-            </Container>
-        </ThemeProvider>
+const StyledPageContainer = styled("div")({
+    height: "100vh"
+})
 
-    );
-};
-
+const StyledContainer = styled(Container)({
+    height: "80vh"
+})
 
 const StyledForm = styled(Form)({
-    height: "100%",
+    height: "60vh",
+    display: "flex",
+    color: "white",
+    flexDirection: "column",
+    justifyContent: "space-between"
+})
+
+const StyledFields = styled("div")({
     display: "flex",
     color: "white",
     flexDirection: "column",
@@ -55,6 +57,19 @@ const onSubmit = (
     setSubmitting(true);
 };
 
+const CreateBetPage = () => {
+    return (
+        <StyledPageContainer>
+            <CustomHeader />
+            <StyledContainer>
+                <SectionTitle
+                    title={"Criar Matches"} description="Preencha os campos abaixo para criar sua aposta." />
+                <CreateBetForm />
+            </StyledContainer>
+        </StyledPageContainer>
+    );
+};
+
 const CreateBetForm = () => {
     return (
         <Formik
@@ -64,32 +79,44 @@ const CreateBetForm = () => {
         >
             {(formik: FormikProps<BetCreation>) => (
                 <StyledForm onSubmit={formik.handleSubmit}>
-                    <Typography variant="body2">
-                        Criar um Match
-                    </Typography>
 
-                    <Field as={TextField}
-                        key="category"
-                        id="category"
-                        name="category"
-                        label="Categoria"
-                        placeholder="Adicione uma categoria (ou até x)"
-                        className="form-field"
-                        variant="standard"
-                        error={formik.touched.category && Boolean(formik.errors.category)}
-                        helperText={formik.touched.category && formik.errors.category} />
+                    <StyledFields>
+                        <Field as={TextField}
+                            key="category"
+                            id="category"
+                            name="category"
+                            label="Categoria"
+                            placeholder="Escolha uma categoria"
+                            className="form-field"
+                            variant="outlined"
+                            error={formik.touched.category && Boolean(formik.errors.category)}
+                            helperText={formik.touched.category && formik.errors.category} />
 
-                    <Field as={TextField}
-                        key="description"
-                        id="description"
-                        name="description"
-                        label="Descrição do Match"
-                        placeholder="Descreva seu Match"
-                        multiline
-                        rows={4}
-                        variant="filled"
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description} />
+                        <Field as={TextField}
+                            key="event"
+                            id="event"
+                            name="event"
+                            label="Evento"
+                            placeholder="Escolha um evento"
+                            className="form-field"
+                            variant="outlined"
+                            error={formik.touched.description && Boolean(formik.errors.description)}
+                            helperText={formik.touched.description && formik.errors.description} />
+
+                        <Field as={TextField}
+                            key="match"
+                            id="match"
+                            name="match"
+                            label="Match"
+                            placeholder="ex: ambos marcam"
+                            className="form-field"
+                            variant="outlined"
+                            error={formik.touched.description && Boolean(formik.errors.description)}
+                            helperText={formik.touched.description && formik.errors.description} />
+                    </StyledFields>
+
+
+                    <Button variant="contained">CONFIRMAR E PROSSEGUIR</Button>
 
                 </StyledForm>
             )}
