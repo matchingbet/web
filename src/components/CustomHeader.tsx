@@ -42,7 +42,7 @@ export default function CustomHeader() {
         <StyledHeader>
             <BrandWrapper>
                 <Logo size={40} onClick={() => console.log("cliquei no logo")}/>
-                <Typography sx={{paddingLeft: "10px", paddingTop: "2px"}} variant="h2">
+                <Typography sx={{paddingLeft: "10px", paddingTop: "2px", fontSize: '1rem'}} variant="h2">
                     <Link href="/">
                         <a className="hover:underline">Matching-bet</a>
                     </Link>

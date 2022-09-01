@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid } from "@mui/material";
 import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
 
-import {Logo} from "../../components/Logo/Logo";
+import { Logo } from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
 import useSecurityStore from "../../stores/SecurityStore";
 import { Credentials } from "../../models/Credentials";
+import { AuthService } from "../../services/AuthService";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -35,7 +36,7 @@ export default function Login() {
 
   const usernameRef = useRef<HTMLInputElement>();
 
-  const { login, token, logged } = useSecurityStore();
+  const { token, logged } = useSecurityStore();
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
@@ -54,32 +55,39 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!errorMessage) {
-      setErrorMessage("Usuário ou senha inválidos.");
-    } else {
-      setErrorMessage("")
-    }
+    // if (!errorMessage) {
+    //   setErrorMessage("Usuário ou senha inválidos.");
+    // } else {
+    //   setErrorMessage("")
+    // }
     /*
       tiago.luks@gmail.com
       123456
     */
-    
-    login({ username, password } as Credentials);
-    
-    if (logged) {
-      setUsername('');
-      setPassword('');
-      setShowPassword(false);
-      setSaveInformation(false);
-      setErrorMessage('');
-      setIsConfirmBtnDisabled(true);
 
-      console.log(token);
+    const authService = new AuthService();
+    authService.login({ username, password } as Credentials).then((response: any) => {
+      if (response.status === 200) {
+        //resetForm();
+      }
+    }).catch(err => setErrorMessage(err.message));
 
-      router.push("/");
-    } else {
-      //setErrorMessage(err.message)
-    }
+    // login({ username, password } as Credentials);
+
+    // if (logged) {
+    //   setUsername('');
+    //   setPassword('');
+    //   setShowPassword(false);
+    //   setSaveInformation(false);
+    //   setErrorMessage('');
+    //   setIsConfirmBtnDisabled(true);
+
+    //   console.log(token);
+
+    //   router.push("/");
+    // } else {
+    //   //setErrorMessage(err.message)
+    // }
   }
 
   const handleShowPassword = (showPassword: boolean) => {

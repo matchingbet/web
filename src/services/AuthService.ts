@@ -24,17 +24,22 @@ export class AuthService implements AuthServiceType {
     }
 
     public async login(credentials: Credentials): Promise<Response> {
-        const response = await this.http.post<Response>("/api/login", credentials);
+
+        const options = {"Authorization": "Basic YmFjay13ZWI6d2ViMTIz", "Content-Type": "application/x-www-form-urlencoded"}
+        const serverCredentials = { ...credentials, "grant_type": "password"};
+
+        const response = await this.http.post<Response>("/oauth/token", serverCredentials, options);
         if (response.status === 200) {
-            const authToken = response.headers.get("Authorization");
-            const user = await response.json();
-            useSecurityStore.setState({token: authToken || "", user: user, logged: true});
+            const body = await response.json();
+            const authToken = body["access_token"];
+            const refreshToken = body["refresh_token"];
+            useSecurityStore.setState({token: authToken || "", userId: body["user_id"], logged: true, refreshToken: refreshToken});
         }
         return response;
     }
 
     public signOut(): void {
-        useSecurityStore.setState({token: undefined, user: undefined, logged: false});
+        useSecurityStore.setState({token: undefined, userId: undefined, logged: false});
     }
 
 }

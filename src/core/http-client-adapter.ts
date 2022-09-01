@@ -18,14 +18,19 @@ export class HttpClient {
     }
 
     post<T>(endpoint: string, body: any, options?: any): Promise<T> {
+
+        const headers = {
+            ...options,
+            "Accept": "application/json",
+            "Content-Type": options && options["Content-Type"] ? options["Content-Type"] : "application/json"
+        };
+
+        const requestBody = options && options["Content-Type"] != "application/json" ? new URLSearchParams(body) : JSON.stringify(body);
+
         return HttpClient._handleRequest<T>(fetch(`${this._baseUrl}${endpoint}`, {
             method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-                ...options,
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
+            body: requestBody,
+            headers: headers
         }));
     }
 
