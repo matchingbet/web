@@ -65,6 +65,22 @@ export class HttpClient {
         }));
     }
 
+    login(endpoint: string, body: any, options?: any) {
+        const headers = {
+            ...options,
+            "Accept": "application/json",
+            "Content-Type": options && options["Content-Type"] ? options["Content-Type"] : "application/json"
+        };
+
+        const requestBody = options && options["Content-Type"] != "application/json" ? new URLSearchParams(body) : JSON.stringify(body);
+
+        return fetch(`${this._baseUrl}${endpoint}`, {
+            method: "POST",
+            body: requestBody,
+            headers: headers
+        });
+    }
+
     private static async _handleRequest<T>(requestResponse: Promise<Response>): Promise<T> {
         const response = await requestResponse;
         return await response.json() as T;

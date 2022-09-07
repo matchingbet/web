@@ -63,7 +63,7 @@ export default function Login() {
       setIsUsernameInvalid(false);
       setIsPasswordInvalid(false);
 
-      console.log(response)
+      // console.log(response)
 
       // router.push("/");
     }).catch(err => setErrorMessage(err.error_description));

@@ -28,7 +28,8 @@ export class AuthService implements AuthServiceType {
         const options = {"Authorization": "Basic YmFjay13ZWI6d2ViMTIz", "Content-Type": "application/x-www-form-urlencoded"}
         const serverCredentials = { ...credentials, "grant_type": "password"};
 
-        const response = await this.http.post<Response>("/oauth/token", serverCredentials, options);
+        const response = await this.http.login("/oauth/token", serverCredentials, options);
+        // console.log(response);
         if (response.status === 200) {
             const body = await response.json();
             const authToken = body["access_token"];
