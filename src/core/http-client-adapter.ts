@@ -3,7 +3,7 @@ export class HttpClient {
     private _baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
     get<T>(endpoint: string, id?: number, options?: any): Promise<T> {
-        let url = `${this._baseUrl}/${endpoint}`;
+        let url = `${options.baseUrl || this._baseUrl}/${endpoint}`;
         if (id) {
             url = `${url}/${id}`;
         }
