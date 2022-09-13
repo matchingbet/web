@@ -7,6 +7,7 @@ import { Logo } from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
 import { Credentials } from "../../models/Credentials";
 import { AuthService } from "../../services/AuthService";
+import useSecurityStore from "../../stores/SecurityStore";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -24,23 +25,25 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function Login() {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [isUsernameInvalid, setIsUsernameInvalid] = useState<boolean>(false);
-  const [isPasswordInvalid, setIsPasswordInvalid] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [saveInformation, setSaveInformation] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState<boolean>(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
+  const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [saveInformation, setSaveInformation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState(true);
 
   const usernameRef = useRef<HTMLInputElement>();
+
+  const { logged } = useSecurityStore();
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
       () =>
         !getUsernamePattern().test(username) ||
-        password.length < 8 ||
-        password.length > 16
+        password.length < 6 ||
+        password.length > 12
     );
   }, [username, password])
 
@@ -53,19 +56,12 @@ export default function Login() {
     e.preventDefault();
 
     const authService = new AuthService();
-    authService.login({ username, password } as Credentials).then((response: any) => {
-      setUsername('');
-      setPassword('');
-      setShowPassword(false);
-      setSaveInformation(false);
-      setErrorMessage('');
-      setIsConfirmBtnDisabled(true);
-      setIsUsernameInvalid(false);
-      setIsPasswordInvalid(false);
-
-      // console.log(response)
-
-      // router.push("/");
+    authService.login({ username, password } as Credentials).then(() => {
+      console.log(logged)
+      if (logged) {
+        router.push("/");
+        console.log(logged)
+      }
     }).catch(err => setErrorMessage(err.error_description));
   }
 
@@ -74,7 +70,7 @@ export default function Login() {
   };
 
   const getUsernamePattern = (): RegExp => {
-    return /^[A-Za-z][A-Za-z0-9_]{7,19}$/;
+    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   }
 
   const router = useRouter();
@@ -105,7 +101,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             onBlur={() =>
               setIsPasswordInvalid(
-                () => password.length < 8 || password.length > 16
+                () => password.length < 6 || password.length > 16
               )
             }
             type={showPassword ? "text" : "password"}

@@ -29,12 +29,15 @@ export class AuthService implements AuthServiceType {
         const serverCredentials = { ...credentials, "grant_type": "password"};
 
         const response = await this.http.login("/oauth/token", serverCredentials, options);
-        // console.log(response);
         if (response.status === 200) {
+            console.log('oi')
             const body = await response.json();
             const authToken = body["access_token"];
             const refreshToken = body["refresh_token"];
-            useSecurityStore.setState({token: authToken || "", userId: body["user_id"], logged: true, refreshToken: refreshToken});
+            useSecurityStore.setState(() => ({token: authToken || "", userId: body["user_id"], logged: true, refreshToken: refreshToken}));
+        } else {
+            console.log('não ok')
+            useSecurityStore.setState(() => ({token: undefined, userId: undefined, logged: false, refreshToken: undefined}));
         }
         return response;
     }
