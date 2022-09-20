@@ -105,7 +105,6 @@ const SignupForm = () => {
             })
             .catch((err: ServerError) => {
                 setSubmitting(false);
-                console.log(err.userMessage);
             });
 
     };

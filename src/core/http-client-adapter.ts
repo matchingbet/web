@@ -1,6 +1,6 @@
 export class HttpClient {
 
-    private _baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    private _baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
     get<T>(endpoint: string, id?: number, options?: any): Promise<T> {
         let url = `${this._baseUrl}/${endpoint}`;
