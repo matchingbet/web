@@ -4,6 +4,7 @@ export class HttpClient {
 
     get<T>(endpoint: string, id?: number, options?: any): Promise<T> {
         let url = `${this._baseUrl}/${endpoint}`;
+        console.log(url);
         if (id) {
             url = `${url}/${id}`;
         }

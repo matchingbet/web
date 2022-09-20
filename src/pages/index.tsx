@@ -13,11 +13,13 @@ import {ThemeProvider} from "@mui/material/styles";
 import BetCardProps from "../models/Bet";
 import {useState} from "react";
 import CreateBet from "../components/CreateBetButton";
+import {HttpClient} from "../core/http-client-adapter";
+import Bet from "../models/Bet";
 
 
 export async function getServerSideProps() {
-    const response = await fetch("http://localhost:3000/api/bets");
-    const mostRequestedBets = await response.json();
+    const http = new HttpClient();
+    const mostRequestedBets = await http.get<Bet[]>("api/bets");
     return {
         props: {
             mostRequestedBets,
