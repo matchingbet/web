@@ -6,21 +6,16 @@ import * as yup from 'yup';
 
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {HttpClient} from "../core/http-client-adapter";
 import UserCreation from "../models/UserCreation";
 
-import {Endpoints} from "../core/constants/endpoints";
-import {User} from "../models/User";
-
-import ServerError from "../models/ServerError";
-
 import CircularProgress from '@mui/material/CircularProgress';
-import {useRouter} from "next/router";
 import RegisterLogo from "./RegisterLogo";
+import {UserService} from "../services/UserService";
+import {User} from "../models/User";
+import ServerError from "../models/ServerError";
+import {useRouter} from "next/router";
 
 const SignupForm = () => {
-
-    const http = new HttpClient();
 
     const validationSchema = yup.object({
         firstName: yup
@@ -101,7 +96,8 @@ const SignupForm = () => {
         {setSubmitting, resetForm}: FormikHelpers<UserCreation>
     ) => {
         setSubmitting(true);
-        http.post<User>(Endpoints.USERS, {userName: user.firstName, userEmail: user.email, cryptedPass: user.password})
+        const userService = new UserService();
+        userService.createUser(user)
             .then((_res: User) => {
                 setSubmitting(false);
                 resetForm();

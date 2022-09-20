@@ -26,7 +26,8 @@
     "react-input-mask": "^2.0.4",
     "react-social-login": "3.4.15",
     "sass": "^1.52.2",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "3.7.2"
   },
   "devDependencies": {
     "@types/node": "17.0.38",
