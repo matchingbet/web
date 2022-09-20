@@ -7,6 +7,7 @@ import { Logo } from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
 import { Credentials } from "../../models/Credentials";
 import { AuthService } from "../../services/AuthService";
+import useSecurityStore from "../../stores/SecurityStore";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -32,8 +33,15 @@ export default function Login() {
   const [saveInformation, setSaveInformation] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState<boolean>(true);
+  const securityStore = useSecurityStore();
 
   const usernameRef = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    if (securityStore.logged) {
+      router.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
