@@ -23,6 +23,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
     height: "100vh",
     margin: "0 auto",
     padding: "4rem 0 2rem 0",
+  },
+  [theme.breakpoints.up('sm')]: {
+    width: "16rem",
+    height: "100vh",
+    margin: "0 auto",
+    padding: "6rem 0 3rem 0",
   }
 }));
 
