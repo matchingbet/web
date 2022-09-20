@@ -57,10 +57,8 @@ export default function Login() {
 
     const authService = new AuthService();
     authService.login({ username, password } as Credentials).then(() => {
-      console.log(logged)
       if (logged) {
         router.push("/");
-        console.log(logged)
       }
     }).catch(err => setErrorMessage(err.error_description));
   }
