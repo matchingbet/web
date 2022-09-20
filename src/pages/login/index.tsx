@@ -34,6 +34,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState(true);
   const securityStore = useSecurityStore();
+  const router = useRouter();
 
   const usernameRef = useRef<HTMLInputElement>();
 
@@ -78,7 +79,6 @@ export default function Login() {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   }
 
-  const router = useRouter();
 
   return (
     <StyledBox>
