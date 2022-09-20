@@ -9,11 +9,11 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import UserCreation from "../models/UserCreation";
 
 import CircularProgress from '@mui/material/CircularProgress';
-import {useRouter} from "next/router";
 import RegisterLogo from "./RegisterLogo";
-import {createUser} from "../services/user-service";
+import {UserService} from "../services/UserService";
 import {User} from "../models/User";
 import ServerError from "../models/ServerError";
+import {useRouter} from "next/router";
 
 const SignupForm = () => {
 
@@ -96,7 +96,8 @@ const SignupForm = () => {
         {setSubmitting, resetForm}: FormikHelpers<UserCreation>
     ) => {
         setSubmitting(true);
-        createUser(user)
+        const userService = new UserService();
+        userService.createUser(user)
             .then((_res: User) => {
                 setSubmitting(false);
                 resetForm();

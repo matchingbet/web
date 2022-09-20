@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../SectionTitle";
 
 declare interface SectionProps {
   title?: string;

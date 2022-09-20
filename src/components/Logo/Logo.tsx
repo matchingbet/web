@@ -6,13 +6,12 @@ interface LogoProps {
     onClick?: MouseEventHandler,
 }
 
-export function Logo({size, onClick}: LogoProps) {
-    return (
-        <div onClick={onClick}>
-            <Avatar
-                sx={{width: size, height: size, margin: '0 auto'}}
-                src=''
-            />
-        </div>
-    );
+export function Logo({ size, onClick }: LogoProps) {
+  return (
+    <Avatar
+      onClick={onClick}
+      sx={{ width: size, height: size, margin: "0 auto", cursor: "pointer" }}
+      src=""
+    />
+  );
 }

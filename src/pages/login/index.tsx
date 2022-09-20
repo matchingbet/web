@@ -1,21 +1,13 @@
-import React, {useEffect, useRef, useState} from "react";
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  IconButton,
-  InputAdornment,
-  Link,
-  styled,
-  TextField,
-  Typography
-} from "@mui/material";
-import {Error, Visibility, VisibilityOff} from "@mui/icons-material";
+import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
+import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid } from "@mui/material";
+import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
 
-import {Logo} from "../../components/Logo/Logo";
+import { Logo } from "../../components/Logo/Logo";
 import CustomButton from "../../components/CustomButton";
-import {useRouter} from "next/router";
+import { Credentials } from "../../models/Credentials";
+import { AuthService } from "../../services/AuthService";
+import useSecurityStore from "../../stores/SecurityStore";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -23,77 +15,100 @@ const StyledBox = styled(Box)(({ theme }) => ({
     height: "100vh",
     margin: "0 auto",
     padding: "4rem 0 2rem 0",
+  },
+  [theme.breakpoints.up('sm')]: {
+    width: "16rem",
+    height: "100vh",
+    margin: "0 auto",
+    padding: "6rem 0 3rem 0",
   }
 }));
 
 export default function Login() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [isEmailInvalid, setIsEmailInvalid] = useState<boolean>(false);
-  const [isPasswordInvalid, setIsPasswordInvalid] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [saveInformation, setSaveInformation] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [error, setError] = useState<boolean>(false);
-  const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState<boolean>(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
+  const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [saveInformation, setSaveInformation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState(true);
+  const securityStore = useSecurityStore();
+  const router = useRouter();
 
-  const emailRef = useRef<HTMLInputElement>();
+  const usernameRef = useRef<HTMLInputElement>();
+
+  const { logged } = useSecurityStore();
+
+  useEffect(() => {
+    if (securityStore.logged) {
+      router.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     setIsConfirmBtnDisabled(
-      () => !getEmailPattern().test(email) || password.length < 8 || password.length > 16
+      () =>
+        !getUsernamePattern().test(username) ||
+        password.length < 6 ||
+        password.length > 12
     );
-  }, [email, password])
+  }, [username, password])
 
   useEffect(() => {
-    const ref = emailRef.current;
+    const ref = usernameRef.current;
     ref?.focus();
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      email,
-      password,
-      saveInformation
-    }
-    console.log(data);
-    setErrorMessage("E-mail ou senha inválidos.");
+
+    const authService = new AuthService();
+    authService.login({ username, password } as Credentials).then(() => {
+      if (logged) {
+        router.push("/");
+      }
+    }).catch(err => setErrorMessage(err.error_description));
   }
 
-  const handleClickShowPassword = (showPassword: boolean) => {
+  const handleShowPassword = (showPassword: boolean) => {
     setShowPassword(showPassword);
   };
 
-  const getEmailPattern = (): RegExp => {
+  const getUsernamePattern = (): RegExp => {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   }
 
-  const router = useRouter();
 
   return (
     <StyledBox>
-      <Logo size={170} onClick={(_e) => router.push("/")} />
+      <Logo size={170} onClick={(__e) => router.push("/")} />
       <Grid container component="form" onSubmit={handleSubmit} sx={{ mt: 10 }}>
         <Grid item xs={12}>
           <TextField
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={() => setIsEmailInvalid(() => !getEmailPattern().test(email))}
-            inputRef={emailRef}
-            type="email"
-            label="Email"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onBlur={() =>
+              setIsUsernameInvalid(() => !getUsernamePattern().test(username))
+            }
+            inputRef={usernameRef}
+            type="text"
+            label="E-mail"
             variant="standard"
-            error={isEmailInvalid}
+            error={isUsernameInvalid}
             required
             fullWidth
-            />
+          />
         </Grid>
         <Grid item xs={12} sx={{ mt: 3 }}>
           <TextField
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onBlur={() => setIsPasswordInvalid(() => password.length < 8 || password.length > 16)}
+            onBlur={() =>
+              setIsPasswordInvalid(
+                () => password.length < 6 || password.length > 16
+              )
+            }
             type={showPassword ? "text" : "password"}
             label="Senha"
             variant="standard"
@@ -105,7 +120,7 @@ export default function Login() {
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={() => handleClickShowPassword(!showPassword)}
+                    onClick={() => handleShowPassword(!showPassword)}
                   >
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
@@ -124,7 +139,7 @@ export default function Login() {
               />
             }
             sx={{
-              color: "#4A4A4A"
+              color: "#4A4A4A",
             }}
             label={"Salvar Informações"}
           />
@@ -137,7 +152,7 @@ export default function Login() {
             variant="subtitle2"
             align="center"
           >
-            {error && (
+            {!!errorMessage && (
               <>
                 <Error
                   sx={{ verticalAlign: "middle", fontSize: "large", mr: 0.8 }}
@@ -150,11 +165,11 @@ export default function Login() {
 
         <Grid item xs={12} sx={{ mt: 3, mb: 1 }}>
           <CustomButton
-            onClick={() => setError(!error)}
+            onSubmit={(e) => handleSubmit(e)}
             sx={{ fontWeight: "bold", p: 1.3 }}
             variant="contained"
             type="submit"
-            disabled={isConfirmBtnDisabled}
+            disabled={false}
             fullWidth
           >
             ENTRAR
