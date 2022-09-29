@@ -19,7 +19,7 @@ import Bet from "../models/Bet";
 
 export async function getServerSideProps() {
     const http = new HttpClient();
-    const mostRequestedBets = await http.get<Bet[]>("api/bets");
+    const mostRequestedBets = await http.get<Bet[]>("generic/1/10");
     return {
         props: {
             mostRequestedBets,
@@ -62,7 +62,7 @@ const Home: NextPage<HomePageProps> = ({mostRequestedBets}) => {
                 </HomePageItem>
             </Container>
 
-            <CreateBet/>
+            {/* <CreateBet/> */}
         </div>
     );
 };
