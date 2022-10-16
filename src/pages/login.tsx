@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid } from "@mui/material";
 import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
 
-import { Logo } from "../../components/Logo/Logo";
-import CustomButton from "../../components/CustomButton";
-import { Credentials } from "../../models/Credentials";
-import { AuthService } from "../../services/AuthService";
-import useSecurityStore from "../../stores/SecurityStore";
+import { Logo } from "../components/Logo";
+import CustomButton from "../components/CustomButton";
+import { Credentials } from "../models/Credentials";
+import { AuthService } from "../services/AuthService";
+import useSecurityStore from "../stores/SecurityStore";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -78,7 +78,6 @@ export default function Login() {
   const getUsernamePattern = (): RegExp => {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   }
-
 
   return (
     <StyledBox>
@@ -179,7 +178,7 @@ export default function Login() {
       <Link
         sx={{ textUnderlineOffset: 2 }}
         color="#4A4A4A"
-        href="#"
+        href="src/pages/login#"
         underline="always"
       >
         <Typography align="center">Esqueceu a senha?</Typography>

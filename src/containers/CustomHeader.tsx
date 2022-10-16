@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import {styled, Typography, useTheme} from "@mui/material";
-import {Logo} from "./Logo/Logo";
+import {Logo} from "../components/Logo";
 
 export default function CustomHeader() {
 

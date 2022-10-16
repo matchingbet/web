@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import SectionTitleProps from "../models/SectionTitleProps";
+import SectionTitleProps from "../types/SectionTitleProps";
 import { Button } from '@mui/material';
 
 export default function SectionTitle(props: SectionTitleProps) {

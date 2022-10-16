@@ -1,13 +1,8 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
-import { Credentials } from "../models/Credentials";
-import { SecurityStore } from "../models/SecurityStore";
+import { ISecurityStore } from "../types/SecurityStoreType";
 
-import { HttpClient } from "../core/http-client-adapter";
-
-const httpClient = new HttpClient();
-
-export const useSecurityStore = create<SecurityStore>(
+export const useSecurityStore = create<ISecurityStore>(
   persist(
     (set, _get) => ({
       userId: undefined,

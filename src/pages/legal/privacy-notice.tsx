@@ -1,4 +1,4 @@
-import CustomHeader from "../../components/CustomHeader";
+import CustomHeader from "../../containers/CustomHeader";
 import Container from "@mui/material/Container";
 import {styled, ThemeProvider} from "@mui/system";
 import theme from "../../styles/theme";

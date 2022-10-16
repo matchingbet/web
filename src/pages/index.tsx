@@ -1,39 +1,21 @@
-import type {NextPage} from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 
-import CustomHeader from "../components/CustomHeader";
+import CustomHeader from "../containers/CustomHeader";
 
 import Container from "@mui/material/Container";
 
-import HomePageItem from "../components/HomePageItem/HomePageItem";
-import MostRequestedBets from "../components/MostRequestedBets/MostRequestedBets";
-import SearchBets from "../components/SearchBets";
+import HomePageItem from "../components/HomePageItem";
+import MostRequestedBets from "../containers/MostRequestedBets";
+import SearchBets from "../containers/SearchBets";
 
-import {ThemeProvider} from "@mui/material/styles";
-import BetCardProps from "../models/Bet";
-import {useState} from "react";
-import CreateBet from "../components/CreateBetButton";
-import {HttpClient} from "../core/http-client-adapter";
-import Bet from "../models/Bet";
+import { useState } from "react";
 
 
-export async function getServerSideProps() {
-    const http = new HttpClient();
-    const mostRequestedBets = await http.get<Bet[]>("generic/1/10");
-    return {
-        props: {
-            mostRequestedBets,
-        },
-    }
-}
-
-interface HomePageProps {
-    mostRequestedBets: Array<BetCardProps>;
-}
-
-const Home: NextPage<HomePageProps> = ({mostRequestedBets}) => {
+const Home: NextPage = () => {
 
     const [listSize, setListSize] = useState(6);
+    const [mostRequestedBets, setMostRequestedBets] = useState([]);
 
     const seeMoreHandler = () => {
         setListSize(listSize + 5);
