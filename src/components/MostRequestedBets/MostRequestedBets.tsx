@@ -1,4 +1,4 @@
-import {styled} from "@mui/material";
+import {styled, Typography} from "@mui/material";
 import Bet from "../../models/Bet";
 import MostRequestedBetCard from "./BetCard";
 
@@ -14,11 +14,13 @@ function MostRequestedBets({mostRequestedBets, size}: MostRequestedBetsProps) {
     });
 
     return (
-        <StyledBetsList>
-            {mostRequestedBets.slice(0, size || 5).map((betItem, index) => (
-                <MostRequestedBetCard key={index} bet={betItem}/>
-            ))}
-        </StyledBetsList>
+        <>{
+            mostRequestedBets && mostRequestedBets.length ? <StyledBetsList>
+                {mostRequestedBets.slice(0, size || 5).map((betItem, index) => (
+                    <MostRequestedBetCard key={index} bet={betItem}/>
+                ))}
+            </StyledBetsList> : <div><Typography sx={{color:"white", textAlign: "center", marginTop: "10vh", marginBottom: "10vh"}}>nenhuma bet disponível</Typography></div>
+        }</>
     );
 }
 

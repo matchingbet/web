@@ -11,31 +11,32 @@ import SearchBets from "../components/SearchBets";
 
 import {ThemeProvider} from "@mui/material/styles";
 import BetCardProps from "../models/Bet";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CreateBet from "../components/CreateBetButton";
+import {HttpClient} from "../core/http-client-adapter";
+import Bet from "../models/Bet";
 
 
-export async function getServerSideProps() {
-    const response = await fetch("http://localhost:3000/api/bets");
-    const mostRequestedBets = await response.json();
-    return {
-        props: {
-            mostRequestedBets,
-        },
-    }
-}
-
-interface HomePageProps {
-    mostRequestedBets: Array<BetCardProps>;
-}
-
-const Home: NextPage<HomePageProps> = ({mostRequestedBets}) => {
+const Home: NextPage = () => {
 
     const [listSize, setListSize] = useState(6);
+    const [mostRequestedBets, setMostRequestedBets] = useState<Bet[]>([]);
 
     const seeMoreHandler = () => {
         setListSize(listSize + 5);
     }
+
+    const fetchBets = async () => {
+        const http = new HttpClient();
+        return await http.get<Bet[]>("api/bets");
+    };
+
+    useEffect(() => {
+        fetchBets().then((bets) => {
+            setMostRequestedBets(bets);
+        })
+    }, []);
+
 
     return (
         <div>
