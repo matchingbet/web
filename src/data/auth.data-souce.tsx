@@ -1,5 +1,6 @@
 import { Endpoints } from "../core/constants/endpoints";
 import { HttpClient } from "../core/http-client-adapter";
+import { Credentials } from "../models/Credentials";
 import { User } from "../models/User";
 
 export class AuthDataSource {
@@ -18,8 +19,16 @@ export class AuthDataSource {
         }
     }
 
-    public async login(serverCredentials: any, options: any): Promise<Response> {
-        return await this.http.post("/oauth/token", serverCredentials, options)
+    public async login(credentials: Credentials): Promise<Response> {
+        const basicToken = process.env.NEXT_PUBLIC_BASIC_API_TOKEN;
+        const options = {"Authorization": `Basic ${basicToken}`, "Content-Type": "application/x-www-form-urlencoded"}
+        const serverCredentials = { ...credentials, "grant_type": "password"};
+        const response = await this.http.post("/oauth/token", serverCredentials, options);
+        if (response.ok) {
+            return response;
+        } else {
+            throw Error(response.statusText);
+        }
     }
 
 }

@@ -21,11 +21,7 @@ export class AuthService implements IAuthService {
     }
 
     public async login(credentials: Credentials): Promise<Response> {
-        const basicToken = process.env.NEXT_PUBLIC_BASIC_API_TOKEN;
-        const options = {"Authorization": `Basic ${basicToken}`, "Content-Type": "application/x-www-form-urlencoded"}
-        const serverCredentials = { ...credentials, "grant_type": "password"};
-
-        const response = await this.dataSource.login(serverCredentials, options);
+        const response = await this.dataSource.login(credentials);
         if (response.ok) {
             const body = await response.json();
             const authToken = body["access_token"];

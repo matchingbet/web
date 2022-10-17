@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import { styled } from "@mui/system";
 import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
 import * as yup from 'yup';
-import CustomHeader from "../containers/CustomHeader";
+import CustomHeader from "../containers/CustomHeader/CustomHeader";
 import SectionTitle from "../containers/SectionTitle";
 
 const StyledPageContainer = styled("div")({
