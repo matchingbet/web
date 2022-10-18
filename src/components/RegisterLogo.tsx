@@ -1,4 +1,4 @@
-import {Logo} from "./Logo/Logo";
+import {StyledAvatar} from "./StyledAvatar/StyledAvatar";
 import {Typography} from "@mui/material";
 import {styled} from "@mui/system";
 
@@ -14,7 +14,7 @@ const StyledHeaderContainer = styled("div")({
 const RegisterLogo = () => {
     return (
         <StyledHeaderContainer>
-            <Logo size={125} onClick={() => console.log("cliquei no logo")}/>
+            <StyledAvatar size={125} onClick={() => console.log("cliquei no logo")}/>
 
             <Typography variant="body2">
                 Cadastre-se para criar e participar de várias apostas

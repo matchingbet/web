@@ -1,17 +1,23 @@
-import {Avatar} from "@mui/material";
+import {Box, CardMedia} from "@mui/material";
 import {MouseEventHandler} from "react";
+import Logo3 from "../../../public/images/Logo.png";
 
 interface LogoProps {
     size: number;
     onClick?: MouseEventHandler,
+    src: string;
 }
 
-export function Logo({ size, onClick }: LogoProps) {
+export function Logo() {
   return (
-    <Avatar
-      onClick={onClick}
-      sx={{ width: size, height: size, margin: "0 auto", cursor: "pointer" }}
-      src=""
-    />
+   <Box
+        component="img"
+        sx={{
+          height: 31,
+          width: 186,
+        }}
+        alt="MatchingBet"
+        src="../../../public/images/Logo.png"
+      />
   );
 }

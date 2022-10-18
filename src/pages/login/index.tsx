@@ -1,37 +1,48 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import { Box, Checkbox, FormControlLabel, IconButton, InputAdornment, Link, styled, TextField, Typography, Grid } from "@mui/material";
-import { VisibilityOff, Visibility, Error } from "@mui/icons-material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Link,
+  styled,
+  TextField,
+  Typography,
+  Grid,
+} from "@mui/material";
+import { VisibilityOff, Visibility, Error, Co2Sharp } from "@mui/icons-material";
 
-import { Logo } from "../../components/Logo/Logo";
+import { StyledAvatar } from "../../components/StyledAvatar/StyledAvatar";
 import CustomButton from "../../components/CustomButton";
 import { Credentials } from "../../models/Credentials";
 import { AuthService } from "../../services/AuthService";
 import useSecurityStore from "../../stores/SecurityStore";
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     width: "14rem",
     height: "100vh",
     margin: "0 auto",
     padding: "4rem 0 2rem 0",
   },
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     width: "16rem",
     height: "100vh",
     margin: "0 auto",
     padding: "6rem 0 3rem 0",
-  }
+  },
 }));
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [saveInformation, setSaveInformation] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [isConfirmBtnDisabled, setIsConfirmBtnDisabled] = useState(true);
   const securityStore = useSecurityStore();
   const router = useRouter();
@@ -53,7 +64,7 @@ export default function Login() {
         password.length < 6 ||
         password.length > 12
     );
-  }, [username, password])
+  }, [username, password]);
 
   useEffect(() => {
     const ref = usernameRef.current;
@@ -64,12 +75,17 @@ export default function Login() {
     e.preventDefault();
 
     const authService = new AuthService();
-    authService.login({ username, password } as Credentials).then(() => {
-      if (logged) {
-        router.push("/");
-      }
-    }).catch(err => setErrorMessage(err.error_description));
-  }
+    authService
+      .login({ username, password } as Credentials)
+      .then((response) => {
+        if (logged) {
+          router.push("/");
+        } else{
+          setErrorMessage("AJEITAR ISSO!")
+        }
+      })
+      .catch((err) => setErrorMessage(err.error_description));
+  };
 
   const handleShowPassword = (showPassword: boolean) => {
     setShowPassword(showPassword);
@@ -77,12 +93,11 @@ export default function Login() {
 
   const getUsernamePattern = (): RegExp => {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  }
-
+  };
 
   return (
     <StyledBox>
-      <Logo size={170} onClick={(__e) => router.push("/")} />
+      <StyledAvatar size={170} onClick={(__e) => router.push("/")} />
       <Grid container component="form" onSubmit={handleSubmit} sx={{ mt: 10 }}>
         <Grid item xs={12}>
           <TextField
