@@ -1,43 +1,10 @@
 import Link from 'next/link';
 
-import {styled, Typography, useTheme} from "@mui/material";
-import {Logo} from "./Logo/Logo";
+import { Typography } from "@mui/material";
+import { Logo } from "../../components/Logo";
+import { BrandWrapper, StyledHeader, StyledLinkContainer } from './CustomHeader.styles';
 
 export default function CustomHeader() {
-
-    const StyledHeader = styled("header")({
-        padding: ["0", "0 5vw"],
-        margin: "0",
-        background: "#370365",
-        color: "#FFFFFF",
-        height: "8vh",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center"
-    });
-
-    const theme = useTheme();
-
-    const StyledLinkContainer = styled("div")({
-        display: "flex",
-        justifyContent: "space-around",
-        alignItems: "center",
-        height: "100%",
-        width: "30vw",
-        [theme.breakpoints.up('md')]: {
-            width: "15vw"
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: "10vw"
-        }
-    });
-
-    const BrandWrapper = styled("div")({
-        display: "flex",
-        alignItems: "center"
-    })
-
     return (
         <StyledHeader>
             <BrandWrapper>

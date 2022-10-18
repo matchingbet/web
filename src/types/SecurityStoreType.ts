@@ -1,5 +1,5 @@
 
-export interface SecurityStore {
+export interface ISecurityStore {
   userId?: number;
   logged: boolean;
   token?: string;

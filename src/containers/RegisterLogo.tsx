@@ -1,4 +1,4 @@
-import {Logo} from "./Logo/Logo";
+import {Logo} from "../components/Logo";
 import {Typography} from "@mui/material";
 import {styled} from "@mui/system";
 

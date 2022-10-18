@@ -4,7 +4,7 @@ function Error({ statusCode, res }: any) {
             <p>res</p>
             <p>
                 {statusCode
-                    ? `An error ${statusCode} occurred on server`
+                    ? `An error occurred on server`
                     : 'An error occurred on client'}
             </p>
         </div>
@@ -12,9 +12,5 @@ function Error({ statusCode, res }: any) {
     )
 }
 
-Error.getInitialProps = ({ res, err }: any) => {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-    return { statusCode, res }
-}
 
 export default Error

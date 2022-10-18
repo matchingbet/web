@@ -10,7 +10,7 @@ import {Typography} from "@mui/material";
 import RegisterLogo from "./RegisterLogo";
 import {useGoogleLogin} from '@react-oauth/google';
 
-import SimpleButton from "./buttons/SimpleButton";
+import SimpleButton from "../components/buttons/SimpleButton";
 import {StyledLink} from "../styles/shared-styles";
 import {useRouter} from "next/router";
 // import SocialButton from '../components/buttons/SocialButton';
@@ -37,7 +37,7 @@ interface SocialLoginProps {
     setShowSignUpForm: (shouldShowSignUpForm: boolean) => void
 }
 
-const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
+const SocialLogin = ({setShowSignUpForm}: SocialLoginProps) => {
 
     // const onLoginSuccess = (e: any) => {
     //     console.log(e);
@@ -113,4 +113,4 @@ const SocialLoginPage = ({setShowSignUpForm}: SocialLoginProps) => {
     );
 }
 
-export default SocialLoginPage;
+export default SocialLogin;

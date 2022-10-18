@@ -2,34 +2,27 @@ import {Credentials} from "../models/Credentials";
 import {User} from "../models/User";
 import {HttpClient} from "../core/http-client-adapter";
 import useSecurityStore from "../stores/SecurityStore";
+import { AuthDataSource } from "../data/auth.data-souce";
 
 
-interface AuthServiceType {
+interface IAuthService {
     login: (credentials: Credentials) => Promise<Response>;
     signOut: () => void;
     getUser: () => Promise<User>;
 }
 
-export class AuthService implements AuthServiceType {
+export class AuthService implements IAuthService {
 
-    private http = new HttpClient();
+    private dataSource = new AuthDataSource();
 
     public async getUser(): Promise<User> {
-        const headers: Headers = new Headers();
         const token = useSecurityStore.getState().token;
-        headers.set("Authorization", token || "");
-
-        const response = await this.http.get<User>("/api/user", undefined, { header: headers });
-        return response;
+        return this.dataSource.getUserWithToken(token || "");
     }
 
     public async login(credentials: Credentials): Promise<Response> {
-
-        const options = {"Authorization": "Basic YmFjay13ZWI6d2ViMTIz", "Content-Type": "application/x-www-form-urlencoded"}
-        const serverCredentials = { ...credentials, "grant_type": "password"};
-
-        const response = await this.http.login("/oauth/token", serverCredentials, options);
-        if (response.status === 200) {
+        const response = await this.dataSource.login(credentials);
+        if (response.ok) {
             const body = await response.json();
             const authToken = body["access_token"];
             const refreshToken = body["refresh_token"];
