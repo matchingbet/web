@@ -1,41 +1,30 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 
-import CustomHeader from "../components/CustomHeader";
+import CustomHeader from "../containers/CustomHeader/CustomHeader";
 
 import Container from "@mui/material/Container";
 
-import HomePageItem from "../components/HomePageItem/HomePageItem";
-import MostRequestedBets from "../components/MostRequestedBets/MostRequestedBets";
-import SearchBets from "../components/SearchBets";
+import HomePageItem from "../components/HomePageItem";
+import MostRequestedBets from "../containers/MostRequestedBets";
+import SearchBets from "../containers/SearchBets";
 
-import { ThemeProvider } from "@mui/material/styles";
-import BetCardProps from "../models/Bet";
 import { useState } from "react";
-import CreateBet from "../components/CreateBetButton";
-import { HttpClient } from "../core/http-client-adapter";
-import Bet from "../models/Bet";
+import { useQuery } from "react-query";
+import { BetService } from "../services/BetService";
+import { Box, CircularProgress } from "@mui/material";
+import CenteredComponent from "../components/CenteredComponent";
 
-export async function getServerSideProps() {
-  const http = new HttpClient();
-  const mostRequestedBets = await http.get<Bet[]>("generic/1/10");
-  return {
-    props: {
-      mostRequestedBets,
-    },
-  };
-}
+const betService = new BetService();
 
-interface HomePageProps {
-  mostRequestedBets: Array<BetCardProps>;
-}
+const Home: NextPage = () => {
 
-const Home: NextPage<HomePageProps> = ({ mostRequestedBets }) => {
-  const [listSize, setListSize] = useState(6);
+  const { isLoading, error, data: mostRequestedBets } = useQuery(['getBets'], betService.getBets);
+  const [listSize, setListSize] = useState(5);
 
   const seeMoreHandler = () => {
     setListSize(listSize + 5);
-  };
+  }
 
   return (
     <div>
@@ -53,13 +42,12 @@ const Home: NextPage<HomePageProps> = ({ mostRequestedBets }) => {
 
         <HomePageItem
           title="Apostas mais acessadas"
-          showSeeMore={true}
+          showSeeMore
           seeMoreHandler={seeMoreHandler}
         >
-          <MostRequestedBets
-            mostRequestedBets={mostRequestedBets}
-            size={listSize}
-          />
+          {isLoading ? <CenteredComponent>
+            <CircularProgress />
+          </CenteredComponent> : <MostRequestedBets mostRequestedBets={mostRequestedBets} size={listSize} />}
         </HomePageItem>
       </Container>
 

@@ -1,20 +1,19 @@
 import styled from "@emotion/styled";
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
-import { Container } from "@mui/system";
-import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
+import {Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
+import {Container} from "@mui/system";
+import {Field, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import * as yup from 'yup';
 
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import UserCreation from "../models/UserCreation";
 
 import CircularProgress from '@mui/material/CircularProgress';
-import { useRouter } from "next/router";
+import RegisterLogo from "./RegisterLogo";
+import {UserService} from "../services/UserService";
+import {User} from "../models/User";
 import ServerError from "../models/ServerError";
-import { User } from "../models/User";
-import { UserService } from "../services/UserService";
-import React from "react";
-import RegisterLogo from "../containers/RegisterLogo";
+import {useRouter} from "next/router";
 
 const SignupForm = () => {
 

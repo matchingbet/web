@@ -1,24 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/router";
+import { Error, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
   Checkbox,
-  FormControlLabel,
-  IconButton,
+  FormControlLabel, Grid, IconButton,
   InputAdornment,
   Link,
   styled,
   TextField,
-  Typography,
-  Grid,
+  Typography
 } from "@mui/material";
-import { VisibilityOff, Visibility, Error, Co2Sharp } from "@mui/icons-material";
+import { useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from "react";
 
-import { StyledAvatar } from "../../components/StyledAvatar/StyledAvatar";
-import CustomButton from "../../components/CustomButton";
-import { Credentials } from "../../models/Credentials";
-import { AuthService } from "../../services/AuthService";
-import useSecurityStore from "../../stores/SecurityStore";
+import CustomButton from "../components/CustomButton";
+import { StyledAvatar } from "../components/StyledAvatar/StyledAvatar";
+import { Credentials } from "../models/Credentials";
+import { AuthService } from "../services/AuthService";
+import useSecurityStore from "../stores/SecurityStore";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
@@ -35,6 +33,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+const authService = new AuthService();
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -49,7 +49,6 @@ export default function Login() {
 
   const usernameRef = useRef<HTMLInputElement>();
 
-  const { logged } = useSecurityStore();
 
   useEffect(() => {
     if (securityStore.logged) {
@@ -73,12 +72,11 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const authService = new AuthService();
     authService
       .login({ username, password } as Credentials)
       .then((response) => {
-        if (logged) {
+        console.log(useSecurityStore.getState().logged);
+        if (useSecurityStore.getState().logged) {
           router.push("/");
         } else{
           setErrorMessage("AJEITAR ISSO!")
@@ -93,7 +91,7 @@ export default function Login() {
 
   const getUsernamePattern = (): RegExp => {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  };
+  }
 
   return (
     <StyledBox>
@@ -194,7 +192,7 @@ export default function Login() {
       <Link
         sx={{ textUnderlineOffset: 2 }}
         color="#4A4A4A"
-        href="#"
+        href="src/pages/login#"
         underline="always"
       >
         <Typography align="center">Esqueceu a senha?</Typography>

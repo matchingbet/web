@@ -13,7 +13,7 @@ import {
     StyledCard,
     StyledCardContentHeader,
     StyledTypography
-} from "./BetCardStyles";
+} from "./BetCard.styles";
 
 
 interface BetCardProps {

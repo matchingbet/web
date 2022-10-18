@@ -1,0 +1,67 @@
+import { Endpoints } from "../core/constants/endpoints";
+import { HttpClient } from "../core/http-client-adapter";
+import { User } from "../models/User";
+import UserCreation from "../models/UserCreation";
+
+export class UserDataSource {
+
+    private http: HttpClient = new HttpClient();
+
+    public async createUser(user: UserCreation): Promise<User> {
+        const userObj = {
+            cryptedPass: user.password,
+            userName: `${user.firstName} ${user.lastName}`,
+            userEmail: user.email,
+            description: "",
+            govNumber: user.cpf,
+            birthday: user.birthDate,
+            photo: ""
+        };
+        const response = await this.http.post(Endpoints.USERS, userObj)
+        if (response.ok) {
+            const userResponse = await response.json();
+            return userResponse as User;
+        } else {
+            throw Error(response.statusText);
+        }
+    }
+
+    public async getUserById(id: number): Promise<User> {
+        const response = await this.http.get(Endpoints.USERS, id);
+        if (response.ok) {
+            const userResponse = await response.json();
+            return userResponse as User;
+        } else {
+            throw Error(response.statusText);
+        }
+    }
+
+    public async updateUser(user: UserCreation): Promise<User> {
+        const userObj = {
+            cryptedPass: user.password,
+            userName: `${user.firstName} ${user.lastName}`,
+            userEmail: user.email,
+            description: "",
+            govNumber: user.cpf,
+            birthday: user.birthDate,
+            photo: ""
+        };
+        const response = await this.http.update(Endpoints.USERS, userObj)
+        if (response.ok) {
+            const userResponse = await response.json();
+            return userResponse as User;
+        } else {
+            throw Error(response.statusText);
+        }
+    }
+
+    public async updatePassword(passwords: { actualCryptedPass: string; newCryptedPass: string; }, userId: number): Promise<void> {
+        const response = await this.http.update(Endpoints.USERS, passwords, userId);
+        if (response.ok) {
+            return;
+        } else {
+            throw Error(response.statusText);
+        }
+    }
+
+}
