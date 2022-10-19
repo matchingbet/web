@@ -29,8 +29,8 @@ export default function SectionTitle(props: SectionTitleProps) {
   });
 
   const StyledButton = styled(Button)({
-    color: "white",
-    fontSize: "0.8rem",
+    color: "#6B61F5",
+    fontSize: "10px",
     textTransform: "capitalize"
   })
 
@@ -41,7 +41,7 @@ export default function SectionTitle(props: SectionTitleProps) {
         <StyledTitle variant="h1">{title}</StyledTitle>
 
         {(showSeeMore && seeMoreHandler) &&
-          <StyledButton onClick={seeMoreHandler}>{"Ver todas"}</StyledButton>}
+          <StyledButton onClick={seeMoreHandler}>{"VER TODOS"}</StyledButton>}
 
       </TitleButtonHolder>
 

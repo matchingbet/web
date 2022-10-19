@@ -36,12 +36,12 @@ const Home: NextPage = () => {
 
       <CustomHeader />
       <Container>
-        <HomePageItem title="Buscar Apostas">
+        <HomePageItem>
           <SearchBets />
         </HomePageItem>
 
         <HomePageItem
-          title="Apostas mais acessadas"
+          title="Matches"
           showSeeMore
           seeMoreHandler={seeMoreHandler}
         >

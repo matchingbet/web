@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { StyledLink } from "../styles/shared-styles";
 import useSecurityStore from "../stores/SecurityStore";
 import { AuthService } from "../services/AuthService";
-import { Logo } from "./Logo/Logo";
 import { Dropdown } from "./Dropdown/Dropdown";
 import { useState} from "react";
 import LogoSVG from '../../public/images/LogoSVG.svg';
