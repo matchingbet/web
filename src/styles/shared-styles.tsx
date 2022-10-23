@@ -10,7 +10,7 @@ export const Column = styled.div({
     flexDirection: "column",
 })
 
-export const Row = styled.div<{ width: string }>(props => ({
+export const Row = styled.div<{ width?: string }>(props => ({
     display: "flex",
     flexDirection: "row",
     width: props.width
@@ -27,3 +27,11 @@ export const JustifyEndRow = styled(Row)({
 export const SpaceAroundRow = styled(Row)({
     justifyContent: "space-around",
 })
+
+export const Padding = styled.div<{ padding: string }>(props => ({
+    padding: props.padding
+}));
+
+export const Margin = styled.div<{ margin: string }>(props => ({
+    margin: props.margin
+}));

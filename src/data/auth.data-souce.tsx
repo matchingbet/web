@@ -22,14 +22,13 @@ export class AuthDataSource {
     }
 
     public async getUserById(id: number): Promise<User> {
-        console.log("passou aqui 4");
         const response = await this.http.get(Endpoints.USERS, id);
         console.log(response);
         if (response.ok) {
             const userResponse = await response.json();
             return userResponse as User;
         } else {
-            throw Error("");
+            throw Error("Fail to fecth user data.");
         }
     }
 

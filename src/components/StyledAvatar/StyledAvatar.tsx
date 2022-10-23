@@ -10,7 +10,6 @@ interface StyledAvatarProps {
 export function StyledAvatar({ photoUrl, size, onClick }: StyledAvatarProps) {
   return (
     <Avatar
-      no-referrer
       onClick={onClick}
       sx={{ width: size, height: size, margin: "0 auto", cursor: "pointer" }}
       src={photoUrl}

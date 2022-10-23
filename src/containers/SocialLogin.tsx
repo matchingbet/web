@@ -21,13 +21,13 @@ const StyledPageContainer = styled(Container)({
   flexDirection: "column",
   justifyContent: "space-evenly",
   alignItems: "center",
-  height: "75vh",
+  height: "100vh",
 });
 
 const StyledButtons = styled("div")({
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-evenly",
+  justifyContent: "space-between",
   alignItems: "center",
   height: "30vh",
   width: "100%",

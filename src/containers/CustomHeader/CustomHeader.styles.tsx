@@ -3,7 +3,6 @@ import { Column } from "../../styles/shared-styles";
 
 
 export const StyledHeader = styled("header")({
-    padding: ["0", "0 5vw"],
     margin: "0",
     background: "#370365",
     color: "#FFFFFF",
@@ -13,13 +12,6 @@ export const StyledHeader = styled("header")({
     justifyContent: "space-between",
     alignItems: "center"
 });
-
-const MyThemeComponent = styled('div')(({ theme }) => ({
-    color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.primary.main,
-    padding: theme.spacing(1),
-    borderRadius: theme.shape.borderRadius,
-}));
 
 export const StyledLinkContainer = styled("div")(({ theme }) => ({
     display: "flex",
