@@ -9,11 +9,11 @@ import HomePageItem from "../components/HomePageItem";
 import MostRequestedBets from "../containers/MostRequestedBets";
 import SearchBets from "../containers/SearchBets";
 
+import { CircularProgress } from "@mui/material";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { BetService } from "../services/BetService";
-import { Box, CircularProgress } from "@mui/material";
 import CenteredComponent from "../components/CenteredComponent";
+import { BetService } from "../services/BetService";
 
 const betService = new BetService();
 
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 
   const seeMoreHandler = () => {
     setListSize(listSize + 5);
-  }
+  };
 
   return (
     <div>

@@ -1,52 +1,56 @@
 import Link from "next/link";
 
-import { styled, Typography, useTheme } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState} from "react";
-import LogoSVG from '../../public/images/LogoSVG.svg';
-import useSecurityStore from "../../stores/SecurityStore";
-import { AuthService } from "../../services/AuthService";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { Logo } from "../../components/Logo";
 import { StyledAvatar } from "../../components/StyledAvatar/StyledAvatar";
+import { AuthService } from "../../services/AuthService";
+import { Column, JustifyEndRow } from "../../styles/shared-styles";
+import { AvatarText, BrandWrapper, StyledHeader, StyledLinkContainer, UserNameColumn, UserNameColumnText } from "./CustomHeader.styles";
+
+const authService = new AuthService();
 
 export default function CustomHeader() {
   const router = useRouter();
-  const { logged } = useSecurityStore();
-  const authService = new AuthService();
+  const [logged, setLogged] = useState<Boolean>(false);
   const [open, setOpen] = useState(false);
+  const [balance, setBalance] = useState(0.0);
 
-  const StyledHeader = styled("header")({
-    padding: ["0", "0 5vw"],
-    margin: "0",
-    background: "#370365",
-    color: "#FFFFFF",
-    height: "8vh",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  });
+  const { isLoading, error, data: user } = useQuery(['getUser'], authService.getUser);
 
-  const theme = useTheme();
+  useEffect(() => {
+    setLogged(authService.isLogged);
+  }, [authService.isLogged, user]);
 
-  const StyledLinkContainer = styled("div")({
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-    height: "100%",
-    width: "30vw",
-    [theme.breakpoints.up("md")]: {
-      width: "15vw",
-    },
-    [theme.breakpoints.up("lg")]: {
-      width: "10vw",
-    },
-  });
 
-  const BrandWrapper = styled("div")({
-    display: "flex",
-    alignItems: "center",
-  });
+  const LoginRegisterButtons = () => {
+    return (<>
+      <Link href="/login" className="hover:underline">
+        Login
+      </Link>
+
+      <Link href="/signup" style={{ paddingLeft: "5px" }} className="hover:underline">
+        Registro
+      </Link>
+    </>);
+  }
+
+  const LoggedAvatar = () => {
+    return (
+      <JustifyEndRow width={"50vw"}>
+        <UserNameColumn>
+          <UserNameColumnText textAlign={"right"}>Olá,</UserNameColumnText>
+          <UserNameColumnText>{user?.userName}</UserNameColumnText>
+        </UserNameColumn>
+        <Column>
+          <StyledAvatar size={45} />
+          <AvatarText textAlign={"center"} marginRight="0">R$: {balance}</AvatarText>
+        </Column>
+      </JustifyEndRow>
+    );
+  }
 
   return (
     <StyledHeader>
@@ -54,23 +58,8 @@ export default function CustomHeader() {
         <Logo></Logo>
       </BrandWrapper>
       <StyledLinkContainer>
-        {!logged ? (
-          <>
-            <Link href="/login" className="hover:underline">
-              Login
-            </Link>
-
-            <Link href="/signup" style={{ paddingLeft: "5px" }} className="hover:underline">
-              Registro
-            </Link>
-          </>
-        ) : (
-          <>
-            <p>Oi, Fulano</p>
-            <StyledAvatar size={45}/>
-          </>
-        )}
-      </StyledLinkContainer>
-    </StyledHeader>
+        {!logged ? <LoginRegisterButtons /> : isLoading ? <Skeleton variant="text" width={"30vw"} height={80} /> : <LoggedAvatar />}
+      </StyledLinkContainer >
+    </StyledHeader >
   );
 }

@@ -8,7 +8,7 @@ export const useSecurityStore = create<ISecurityStore>(
       userId: undefined,
       logged: false,
       token: undefined,
-      refreshToken: undefined
+      refreshToken: undefined,
     }),
     {
       name: "auth_store",
