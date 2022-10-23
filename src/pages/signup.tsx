@@ -1,6 +1,6 @@
-import SignupForm from "../components/SignupForm";
+import SignupForm from "../containers/SignupForm";
 import {useState} from "react";
-import SocialLoginPage from "../components/SocialLoginPage";
+import SocialLogin from "../containers/SocialLogin";
 import Container from "@mui/material/Container";
 
 
@@ -10,7 +10,7 @@ const Signup = () => {
 
     return (
         <Container>
-            {showSignUpForm ? <SignupForm/> : <SocialLoginPage setShowSignUpForm={setShowSignUpForm}/>}
+            {showSignUpForm ? <SignupForm/> : <SocialLogin setShowSignUpForm={setShowSignUpForm}/>}
         </Container>
     );
 }

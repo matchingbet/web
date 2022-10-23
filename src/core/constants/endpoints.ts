@@ -1,3 +1,3 @@
 export enum Endpoints {
-    USERS = "users"
+  USERS = "users",
 }

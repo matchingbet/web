@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import SectionTitleProps from "../models/SectionTitleProps";
+import SectionTitleProps from "../types/SectionTitleProps";
 import { Button } from '@mui/material';
 
 export default function SectionTitle(props: SectionTitleProps) {
@@ -29,8 +29,8 @@ export default function SectionTitle(props: SectionTitleProps) {
   });
 
   const StyledButton = styled(Button)({
-    color: "white",
-    fontSize: "0.8rem",
+    color: "#6B61F5",
+    fontSize: "10px",
     textTransform: "capitalize"
   })
 
@@ -41,7 +41,7 @@ export default function SectionTitle(props: SectionTitleProps) {
         <StyledTitle variant="h1">{title}</StyledTitle>
 
         {(showSeeMore && seeMoreHandler) &&
-          <StyledButton onClick={seeMoreHandler}>{"Ver todas"}</StyledButton>}
+          <StyledButton onClick={seeMoreHandler}>{"VER TODOS"}</StyledButton>}
 
       </TitleButtonHolder>
 

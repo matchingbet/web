@@ -1,19 +1,20 @@
 import styled from "@emotion/styled";
-import {Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
-import {Container} from "@mui/system";
-import {Field, Form, Formik, FormikHelpers, FormikProps} from "formik";
+import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { Container } from "@mui/system";
+import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
 import * as yup from 'yup';
 
-import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import UserCreation from "../models/UserCreation";
 
 import CircularProgress from '@mui/material/CircularProgress';
 import RegisterLogo from "./RegisterLogo";
-import {UserService} from "../services/UserService";
-import {User} from "../models/User";
+import { UserService } from "../services/UserService";
+import { User } from "../models/User";
 import ServerError from "../models/ServerError";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
+import CustomButton from "../components/CustomButton";
 
 const SignupForm = () => {
 
@@ -93,7 +94,7 @@ const SignupForm = () => {
 
     const onSubmit = (
         user: UserCreation,
-        {setSubmitting, resetForm}: FormikHelpers<UserCreation>
+        { setSubmitting, resetForm }: FormikHelpers<UserCreation>
     ) => {
         setSubmitting(true);
         const userService = new UserService();
@@ -121,7 +122,7 @@ const SignupForm = () => {
     return (
         <StyledContainer>
             <StyledPageContainer>
-                <RegisterLogo/>
+                <RegisterLogo />
 
                 <div>
                     <Formik
@@ -132,41 +133,41 @@ const SignupForm = () => {
                         {(formik: FormikProps<UserCreation>) => (
                             <StyledForm onSubmit={formik.handleSubmit}>
                                 <Field as={TextField}
-                                       key="firstName"
-                                       id="firstName"
-                                       name="firstName"
-                                       label="Nome"
-                                       placeholder="Nome"
-                                       className="form-field"
-                                       variant="standard"
-                                       error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                                       helperText={formik.touched.firstName && formik.errors.firstName}/>
+                                    key="firstName"
+                                    id="firstName"
+                                    name="firstName"
+                                    label="Nome"
+                                    placeholder="Nome"
+                                    className="form-field"
+                                    variant="standard"
+                                    error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                                    helperText={formik.touched.firstName && formik.errors.firstName} />
 
                                 <Field as={TextField}
-                                       key="lastName"
-                                       id="lastName"
-                                       name="lastName"
-                                       type="text"
-                                       placeholder="Sobrenome"
-                                       label="Sobrenome"
-                                       className="form-field"
-                                       variant="standard"
-                                       error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                                       helperText={formik.touched.lastName && formik.errors.lastName}
+                                    key="lastName"
+                                    id="lastName"
+                                    name="lastName"
+                                    type="text"
+                                    placeholder="Sobrenome"
+                                    label="Sobrenome"
+                                    className="form-field"
+                                    variant="standard"
+                                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                                    helperText={formik.touched.lastName && formik.errors.lastName}
                                 />
 
                                 <div className="cpf-birthDate">
                                     <Field as={TextField}
-                                           id="cpf"
-                                           name="cpf"
-                                           type="text"
-                                           placeholder="CPF"
-                                           label="CPF"
-                                           variant="standard"
-                                           className="form-field"
-                                           value={cpfMask(formik.values.cpf)}
-                                           error={formik.touched.cpf && Boolean(formik.errors.cpf)}
-                                           helperText={formik.touched.cpf && formik.errors.cpf}
+                                        id="cpf"
+                                        name="cpf"
+                                        type="text"
+                                        placeholder="CPF"
+                                        label="CPF"
+                                        variant="standard"
+                                        className="form-field"
+                                        value={cpfMask(formik.values.cpf)}
+                                        error={formik.touched.cpf && Boolean(formik.errors.cpf)}
+                                        helperText={formik.touched.cpf && formik.errors.cpf}
                                     />
 
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -174,49 +175,49 @@ const SignupForm = () => {
                                             value={formik.values.birthDate}
                                             label="Data de nascimento"
                                             onChange={(newValue: Date | null, _keyboardInputValue?: string | undefined) => {
-                                                formik.setValues({...formik.values, birthDate: newValue!});
+                                                formik.setValues({ ...formik.values, birthDate: newValue! });
                                             }}
                                             renderInput={(params) =>
                                                 <Field as={TextField}
-                                                       id="birthDate"
-                                                       name="birthDate"
-                                                       variant="standard"
-                                                       placeholder="dd/mm/yyyy"
-                                                       className="form-field"
-                                                       {...params}
-                                                       error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}/>}
+                                                    id="birthDate"
+                                                    name="birthDate"
+                                                    variant="standard"
+                                                    placeholder="dd/mm/yyyy"
+                                                    className="form-field"
+                                                    {...params}
+                                                    error={formik.touched.birthDate && Boolean(formik.errors.birthDate)} />}
                                         />
                                     </LocalizationProvider>
                                 </div>
 
                                 <Field as={TextField}
-                                       id="email"
-                                       name="email"
-                                       type="text"
-                                       placeholder="Email"
-                                       label="Email"
-                                       className="form-field"
-                                       variant="standard"
-                                       error={formik.touched.email && Boolean(formik.errors.email)}
-                                       helperText={formik.touched.email && formik.errors.email}
+                                    id="email"
+                                    name="email"
+                                    type="text"
+                                    placeholder="Email"
+                                    label="Email"
+                                    className="form-field"
+                                    variant="standard"
+                                    error={formik.touched.email && Boolean(formik.errors.email)}
+                                    helperText={formik.touched.email && formik.errors.email}
                                 />
 
                                 <Field as={TextField}
-                                       id="password"
-                                       name="password"
-                                       type="text"
-                                       placeholder="Senha"
-                                       label="Senha"
-                                       className="form-field"
-                                       variant="standard"
-                                       error={formik.touched.password && Boolean(formik.errors.password)}
-                                       helperText={formik.touched.password && formik.errors.password}
+                                    id="password"
+                                    name="password"
+                                    type="text"
+                                    placeholder="Senha"
+                                    label="Senha"
+                                    className="form-field"
+                                    variant="standard"
+                                    error={formik.touched.password && Boolean(formik.errors.password)}
+                                    helperText={formik.touched.password && formik.errors.password}
                                 />
 
                                 <FormControlLabel
                                     value="end"
                                     className="submit-button-terms"
-                                    control={<Checkbox id="acceptedTerms" onChange={formik.handleChange}/>}
+                                    control={<Checkbox id="acceptedTerms" onChange={formik.handleChange} />}
                                     sx={{
                                         color: "#4A4A4A"
                                     }}
@@ -224,16 +225,17 @@ const SignupForm = () => {
                                     labelPlacement="end"
                                 />
 
-                                <Button
+                                <CustomButton
                                     color="primary"
                                     variant="contained"
-                                    className="submit-button-terms"
+                                    // className="submit-button-terms"
                                     fullWidth
                                     type="submit"
                                     disabled={!(formik.isValid && formik.dirty)}
+                                    loading={formik.isSubmitting}
                                 >
-                                    {!formik.isSubmitting ? 'CADASTRAR' : <CircularProgress size={25} color="inherit"/>}
-                                </Button>
+                                    CADASTRAR
+                                </CustomButton>
                             </StyledForm>
                         )}
                     </Formik>
