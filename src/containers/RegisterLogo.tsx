@@ -1,22 +1,27 @@
-import {Logo} from "../components/Logo";
-import {Typography} from "@mui/material";
-import {styled} from "@mui/system";
+import { Typography } from "@mui/material";
+import { styled } from "@mui/system";
+import { useRouter } from "next/router";
+import { Logo } from "../components/Logo";
+
 
 const StyledHeaderContainer = styled("div")({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-    height: "30vh",
+    height: "20vh",
     color: "white"
 })
 
 const RegisterLogo = () => {
+    const router = useRouter();
     return (
-        <StyledHeaderContainer>
-            <Logo size={125} onClick={() => console.log("cliquei no logo")}/>
+        <StyledHeaderContainer >
+            <div onClick={() => router.push("/")}>
+                <Logo />
+            </div>
 
-            <Typography variant="body2">
+            <Typography variant="subtitle1" textAlign={"center"} sx={{ width: "60vw" }}>
                 Cadastre-se para criar e participar de várias apostas
             </Typography>
         </StyledHeaderContainer>

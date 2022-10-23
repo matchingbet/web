@@ -9,13 +9,26 @@ export class AuthDataSource {
 
     public async getUserWithToken(jwtToken: string): Promise<User> {
         const headers = new Headers();
-        headers.set("Authorization", jwtToken || "");
+        const token = `bearer ${jwtToken || ""}`;
+        console.log(token);
+        headers.set("Authorization", token);
         const response = await this.http.get(Endpoints.USERS, undefined, { headers: headers });
         if (response.ok) {
             const userResponse = await response.json();
             return userResponse as User;
         } else {
-            throw Error(response.statusText);
+            throw Error("");
+        }
+    }
+
+    public async getUserById(id: number): Promise<User> {
+        const response = await this.http.get(Endpoints.USERS, id);
+        console.log(response);
+        if (response.ok) {
+            const userResponse = await response.json();
+            return userResponse as User;
+        } else {
+            throw Error("Fail to fecth user data.");
         }
     }
 

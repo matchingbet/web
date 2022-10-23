@@ -1,17 +1,15 @@
-import {Avatar} from "@mui/material";
-import {MouseEventHandler} from "react";
+import { Box, CardMedia } from "@mui/material";
+import { MouseEventHandler } from "react";
+import Image from 'next/image'
 
 interface LogoProps {
-    size: number;
-    onClick?: MouseEventHandler,
+  size: number;
+  onClick?: MouseEventHandler,
+  src: string;
 }
 
-export function Logo({ size, onClick }: LogoProps) {
+export function Logo() {
   return (
-    <Avatar
-      onClick={onClick}
-      sx={{ width: size, height: size, margin: "0 auto", cursor: "pointer" }}
-      src=""
-    />
+    <Image src="/images/logo.svg" alt="me" width="186" height="31" />
   );
 }

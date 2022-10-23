@@ -8,12 +8,12 @@ interface ExpandMoreProps extends IconButtonProps {
 const contrastBackgroundColor = "#503071";
 
 export const StyledCard = styled(Card)({
-    backgroundColor: "transparent",
+    backgroundColor: "#333333",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-evenly",
     margin: "5px 0",
-    border: `1px solid white`,
+    borderRadius: '25px 25px',
 });
 
 export const StyledTypography = styled(Typography)({
@@ -23,7 +23,7 @@ export const StyledTypography = styled(Typography)({
 
 
 export const StyledCardContentHeader = styled(CardContent)({
-    backgroundColor: contrastBackgroundColor,
+    backgroundColor: '#1A1A1A',
     padding: "0 16px",
     cursor: "pointer",
     height: "2.5rem",
@@ -98,7 +98,7 @@ export const Description = styled("div")({
 
 export const Odd = styled("div")({
     color: "white",
-    background: contrastBackgroundColor,
+    background: '#6B61F5',
     borderRadius: "5px",
     padding: ".6rem",
 })
