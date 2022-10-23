@@ -1,14 +1,8 @@
 import { Container } from "@mui/material";
-import SectionTitle from "../SectionTitle";
+import SectionTitle from "../containers/SectionTitle";
+import { ISectionProps } from "../types/SectionProps";
 
-declare interface SectionProps {
-  title?: string;
-  children?: any;
-  showSeeMore?: boolean
-  seeMoreHandler?: any
-}
-
-export default function SectionGroup(props: SectionProps) {
+export default function SectionGroup(props: ISectionProps) {
   return (
     <Container>
       <SectionTitle 

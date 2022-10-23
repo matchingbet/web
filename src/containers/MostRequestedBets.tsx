@@ -1,9 +1,9 @@
 import {styled, Typography} from "@mui/material";
-import Bet from "../../models/Bet";
-import MostRequestedBetCard from "./BetCard";
+import MostRequestedBetCard from "../components/BetCard/BetCard";
+import Bet from "../models/Bet";
 
 interface MostRequestedBetsProps {
-    mostRequestedBets: Array<Bet>;
+    mostRequestedBets?: Array<Bet>;
     size?: number
 }
 

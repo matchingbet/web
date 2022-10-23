@@ -18,7 +18,7 @@ export default function SearchBets() {
         styleOverrides: {
           root: {
             "& .MuiOutlinedInput-notchedOutline": {
-              border: `1px solid #3308FF`,
+              borderRadius: '25px 25px',
             },
         },
         }
@@ -30,9 +30,9 @@ export default function SearchBets() {
     <ThemeProvider theme={theme}>
       <SearchInput
         id="outlined-basic"
-        placeholder="Busque por nome ou código da aposta"
+        placeholder="Busque matches e bookmakers"
         variant="outlined"
-        sx={{ input: { color: "#ffffff" }, outline: { color: "#ffffff" }, background: "linear-gradient(108.8deg, rgba(255, 255, 255, 0.2) 14.74%, rgba(0, 0, 0, 0) 97.96%)" }}
+        sx={{ input: { color: "#ffffff" }, outline: { color: "#ffffff" }, background: "linear-gradient(108.8deg, rgba(255, 255, 255, 0.2) 14.74%, rgba(0, 0, 0, 0) 97.96%)", borderRadius: '25px 25px', }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start" sx={{ color: "#ffffff" }}>
