@@ -45,7 +45,7 @@ export default function CustomHeader() {
           <UserNameColumnText>{user?.userName}</UserNameColumnText>
         </UserNameColumn>
         <Column>
-          <StyledAvatar size={45} />
+          <StyledAvatar photoUrl={user?.photo} size={45} />
           <AvatarText textAlign={"center"} marginRight="0">R$: {balance}</AvatarText>
         </Column>
       </JustifyEndRow>

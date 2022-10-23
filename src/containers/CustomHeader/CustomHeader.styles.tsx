@@ -7,7 +7,7 @@ export const StyledHeader = styled("header")({
     margin: "0",
     background: "#370365",
     color: "#FFFFFF",
-    height: "8vh",
+    height: "10vh",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
