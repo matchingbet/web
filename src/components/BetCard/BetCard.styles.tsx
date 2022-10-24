@@ -35,6 +35,7 @@ export const StyledTypographyData = styled(Typography)({
     paddingTop: "22px",
     fontSize: "12px",
     color: "white",
+    paddingLeft: "20px"
 });
 
 export const StyledCardContentHeader = styled(CardContent)({
