@@ -14,12 +14,18 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import CenteredComponent from "../components/CenteredComponent";
 import { BetService } from "../services/BetService";
+import { BookmakerService } from "../services/BookmakerService";
+import { Column } from "../styles/shared-styles";
+import Bookmakers from "../containers/Bookmakers";
+import Divider from '@mui/material/Divider';
 
 const betService = new BetService();
+const bookmakerService = new BookmakerService();
 
 const Home: NextPage = () => {
 
   const { isLoading, error, data: mostRequestedBets } = useQuery(['getBets'], betService.getBets);
+  const {data: bookmakers } = useQuery(['getBookmakers'], bookmakerService.getBookmakers);
   const [listSize, setListSize] = useState(5);
 
   const seeMoreHandler = () => {
@@ -47,7 +53,18 @@ const Home: NextPage = () => {
         >
           {isLoading ? <CenteredComponent>
             <CircularProgress />
-          </CenteredComponent> : <MostRequestedBets mostRequestedBets={mostRequestedBets} size={listSize} />}
+          </CenteredComponent> : 
+          <Column>
+            <MostRequestedBets mostRequestedBets={mostRequestedBets} size={listSize} />
+            
+          </Column>}
+        </HomePageItem>
+        <HomePageItem
+          title="Bookmakers"
+          showSeeMore
+          seeMoreHandler={seeMoreHandler}
+        >
+        <Bookmakers bookmakers={bookmakers} size={listSize}></Bookmakers>
         </HomePageItem>
       </Container>
 
