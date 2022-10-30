@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Box, IconButton, Menu, MenuItem, Skeleton, Toolbar } from "@mui/material";
+import { Box, Container, IconButton, Menu, MenuItem, Skeleton, Toolbar } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -60,57 +60,61 @@ export default function CustomHeader() {
 
   return (
     <StyledHeader>
-      <Box sx={{ flexGrow: 1 }}>
-        <Toolbar>
+      <Container>
 
-          <BrandWrapper sx={{ flexGrow: 1 }}>
-            <Logo />
-          </BrandWrapper>
 
-          {!logged ? <LoginRegisterButtons /> :
-            <Row>
-              <UserNameColumn sx={{ width: "50vw" }}>
-                <UserNameColumnText textAlign={"right"}>Olá,</UserNameColumnText>
+        <Box sx={{ flexGrow: 1 }}>
+          <Toolbar>
 
-                {isLoading ?
-                  <Padding padding={"0 0 0 25px"}>
-                    <Margin margin={"0 15px 0 0"}>
-                      <Skeleton variant="text" sx={{ fontSize: '.8rem' }} />
-                    </Margin>
-                  </Padding> :
-                  <UserNameColumnText textAlign={"right"}>{user?.userName}</UserNameColumnText>}
-              </UserNameColumn>
+            <BrandWrapper sx={{ flexGrow: 1 }}>
+              <Logo />
+            </BrandWrapper>
 
-              <Column>
-                <IconButton onClick={handleMenu}>
+            {!logged ? <LoginRegisterButtons /> :
+              <Row>
+                <UserNameColumn sx={{ width: "50vw" }}>
+                  <UserNameColumnText textAlign={"right"}>Olá,</UserNameColumnText>
+
                   {isLoading ?
-                    <Skeleton variant="circular" width={45} height={45} /> : <StyledAvatar photoUrl={user?.photo} size={45} />}
-                </IconButton>
-                {isLoading ? <Skeleton variant="text" sx={{ fontSize: '.8rem', width: "50%" }} /> : <AvatarText textAlign={"center"} marginRight="0">R$: {balance}</AvatarText>}
-              </Column>
+                    <Padding padding={"0 0 0 25px"}>
+                      <Margin margin={"0 15px 0 0"}>
+                        <Skeleton variant="text" sx={{ fontSize: '.8rem' }} />
+                      </Margin>
+                    </Padding> :
+                    <UserNameColumnText textAlign={"right"}>{user?.userName}</UserNameColumnText>}
+                </UserNameColumn>
 
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                sx={{ mt: '45px' }}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Sair</MenuItem>
-              </Menu>
-            </Row>}
+                <Column>
+                  <IconButton onClick={handleMenu}>
+                    {isLoading ?
+                      <Skeleton variant="circular" width={45} height={45} /> : <StyledAvatar photoUrl={user?.photo} size={45} />}
+                  </IconButton>
+                  {isLoading ? <Skeleton variant="text" sx={{ fontSize: '.8rem', width: "50%" }} /> : <AvatarText textAlign={"center"} marginRight="0">R$: {balance}</AvatarText>}
+                </Column>
 
-        </Toolbar>
-      </Box>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  sx={{ mt: '45px' }}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Sair</MenuItem>
+                </Menu>
+              </Row>}
+
+          </Toolbar>
+        </Box>
+      </Container>
     </StyledHeader >
   );
 }
