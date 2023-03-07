@@ -19,14 +19,30 @@ export const StyledCard = styled(Card)({
 export const StyledTypography = styled(Typography)({
     height: "24px",
     paddingTop: "2px",
+    fontSize: "12px",
+    color: "#6B61F5"
 });
 
+export const StyledTypographyTitle = styled(Typography)({
+    height: "24px",
+    paddingTop: "2px",
+    fontSize: "15px",
+    color: "white"
+});
+
+export const StyledTypographyData = styled(Typography)({
+    height: "24px",
+    paddingTop: "22px",
+    fontSize: "12px",
+    color: "white",
+    paddingLeft: "20px"
+});
 
 export const StyledCardContentHeader = styled(CardContent)({
     backgroundColor: '#1A1A1A',
     padding: "0 16px",
     cursor: "pointer",
-    height: "2.5rem",
+    height: "3.5rem",
     display: "flex",
     alignItems: "center",
     width: "100%",
@@ -100,7 +116,9 @@ export const Odd = styled("div")({
     color: "white",
     background: '#6B61F5',
     borderRadius: "5px",
-    padding: ".6rem",
+    padding: ".5rem",
+    margin: "5px"
 })
+
 
 

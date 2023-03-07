@@ -2,6 +2,8 @@ import {Collapse, Typography} from "@mui/material";
 import Bet from "../../models/Bet";
 import React, {useState} from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SportsVolleyballOutlinedIcon from '@mui/icons-material/SportsVolleyballOutlined';
+
 import {
     BodyCardContent,
     Description,
@@ -12,8 +14,11 @@ import {
     Odd,
     StyledCard,
     StyledCardContentHeader,
-    StyledTypography
+    StyledTypography,
+    StyledTypographyTitle,
+    StyledTypographyData
 } from "./BetCard.styles";
+import { Column } from "../../styles/shared-styles";
 
 
 interface BetCardProps {
@@ -29,9 +34,22 @@ const DescriptionOdd = ({description, odd, ...style}: { description: string, odd
                     {description.slice(0, 80)}
                 </Typography>
             </Description>
-            <Odd>
-                {odd}
-            </Odd>
+            <Column>
+                <StyledTypographyTitle variant="body2">
+                    SIM
+                </StyledTypographyTitle>
+                <Odd>
+                    {odd}
+                </Odd>
+            </Column>
+            <Column>
+                <StyledTypographyTitle variant="body2">
+                    NÃO
+                </StyledTypographyTitle>
+                <Odd>
+                    {odd}
+                </Odd>
+            </Column>
         </DescriptionLine>
     );
 }
@@ -50,14 +68,19 @@ export default function MostRequestedBetCard({bet}: BetCardProps) {
         <StyledCard>
             <StyledCardContentHeader onClick={handleExpandClick}>
                 <HeaderButton>
-                    <StyledTypography variant="body2">
-                        Futebol
-                    </StyledTypography>
-
-                    <EventTimeAndExpandMore>
-                        <StyledTypography paragraph={true}>
-                            10/07 - 12:00
+                    <SportsVolleyballOutlinedIcon style={{backgroundColor: "#6B61F5", borderRadius: "20px", fontSize: "35px", padding: "5px", color: "white"}}></SportsVolleyballOutlinedIcon>
+                    <Column>
+                        <StyledTypographyTitle variant="body2">
+                            Campeonato Mundial Feminino
+                        </StyledTypographyTitle>
+                        <StyledTypography variant="body2">
+                            VÔLEI
                         </StyledTypography>
+                    </Column>
+                    <StyledTypographyData paragraph={true}>
+                        10/07 - 12:00
+                    </StyledTypographyData>
+                    <EventTimeAndExpandMore>
                         {innerBets && innerBets.length > 0 ? <ExpandMore
                             expand={expanded}
                             onClick={handleExpandClick}
