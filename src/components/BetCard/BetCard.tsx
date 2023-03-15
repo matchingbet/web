@@ -1,4 +1,4 @@
-import {Collapse, Typography} from "@mui/material";
+import {Collapse, Skeleton, Typography} from "@mui/material";
 import Bet from "../../models/Bet";
 import React, {useState} from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -19,10 +19,15 @@ import {
     StyledTypographyData
 } from "./BetCard.styles";
 import { Column } from "../../styles/shared-styles";
+import { Generic } from "../../models/Generic";
+import { MatchService } from "../../services/MatchService";
+import { useQuery } from "react-query";
+import { format } from "date-fns";
+import { StyledAvatar } from "../StyledAvatar/StyledAvatar";
 
 
-interface BetCardProps {
-    bet: Bet
+interface MatchCardProps {
+    match: Generic
 }
 
 const DescriptionOdd = ({description, odd, ...style}: { description: string, odd: number, style?: {} }) => {
@@ -54,11 +59,21 @@ const DescriptionOdd = ({description, odd, ...style}: { description: string, odd
     );
 }
 
-export default function MostRequestedBetCard({bet}: BetCardProps) {
+const betService = new MatchService();
+
+export default function MostRequestedBetCard({match}: MatchCardProps) {
 
     const [expanded, setExpanded] = useState(false);
 
-    const {odd, description, innerBets} = bet;
+    const {id, name, description, photo} = match;
+
+    const convertdate = (myDate?:Date) => {
+        return !!myDate ? format(myDate, "'finaliza ' dd/MM/yyyy', às' H:mm"): ""
+    };
+
+    //mostRequested: { createdAt, expiredAt, options }
+    const { isLoading, error, data } = useQuery(['getMatchById',id], () => {return betService.getMatchById(id);});
+    console.log(data)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -68,56 +83,48 @@ export default function MostRequestedBetCard({bet}: BetCardProps) {
         <StyledCard>
             <StyledCardContentHeader onClick={handleExpandClick}>
                 <HeaderButton>
-                    <SportsVolleyballOutlinedIcon style={{backgroundColor: "#6B61F5", borderRadius: "20px", fontSize: "35px", padding: "5px", color: "white"}}></SportsVolleyballOutlinedIcon>
+                    {/* <SportsVolleyballOutlinedIcon style={{backgroundColor: "#6B61F5", borderRadius: "20px", fontSize: "35px", padding: "5px", color: "white"}}></SportsVolleyballOutlinedIcon> */}
+                    <StyledAvatar photoUrl={data?.photo} size={35} name={!!data?.name?data.name[0]:"M"} />
                     <Column>
                         <StyledTypographyTitle variant="body2">
-                            Campeonato Mundial Feminino
+                            {data?.name}
                         </StyledTypographyTitle>
-                        <StyledTypography variant="body2">
-                            VÔLEI
-                        </StyledTypography>
                     </Column>
                     <StyledTypographyData paragraph={true}>
-                        10/07 - 12:00
+                        {convertdate(  data?.expiredAt)}
                     </StyledTypographyData>
                     <EventTimeAndExpandMore>
-                        {innerBets && innerBets.length > 0 ? <ExpandMore
+                        {<ExpandMore
                             expand={expanded}
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
                             aria-label="show more">
                             <ExpandMoreIcon/>
-                        </ExpandMore> : null}
+                        </ExpandMore> }
                     </EventTimeAndExpandMore>
                 </HeaderButton>
             </StyledCardContentHeader>
 
             {
-                innerBets && innerBets.length > 0 ?
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
-                        <BodyCardContent>
-                            {innerBets ? innerBets.map(({id, description, odd}) => {
+                        <StyledTypographyData paragraph={true}>
+                            {data?.description}
+                        </StyledTypographyData>
+                    </Collapse> 
+            }
+
+            <BodyCardContent>
+            {!!data && !!data.options ? data.options.map(({id, name, description, odd}) => {
                                 return (
                                     <DescriptionOdd
                                         key={id}
                                         style={{
                                             marginBottom: '5px'
                                         }}
-                                        description={description}
+                                        description={name}
                                         odd={odd}/>
                                 )
                             }) : null}
-
-
-                        </BodyCardContent>
-                    </Collapse> :
-                    null
-            }
-
-            <BodyCardContent>
-                <DescriptionOdd
-                    description={description}
-                    odd={odd}/>
             </BodyCardContent>
         </StyledCard>
     );

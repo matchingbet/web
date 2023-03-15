@@ -6,7 +6,7 @@ import CustomHeader from "../containers/CustomHeader/CustomHeader";
 import Container from "@mui/material/Container";
 
 import HomePageItem from "../components/HomePageItem";
-import MostRequestedBets from "../containers/MostRequestedBets";
+import RequestedGenerics from "../containers/RequestedGenerics";
 import SearchBets from "../containers/SearchBets";
 
 import { CircularProgress } from "@mui/material";
@@ -14,22 +14,43 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import CenteredComponent from "../components/CenteredComponent";
 import { BetService } from "../services/BetService";
+import { GenericService } from "../services/GenericService";
 import { BookmakerService } from "../services/BookmakerService";
 import { Column } from "../styles/shared-styles";
 import Bookmakers from "../containers/Bookmakers";
 import Divider from '@mui/material/Divider';
 
 const betService = new BetService();
+const genericService = new GenericService();
 const bookmakerService = new BookmakerService();
 
 const Home: NextPage = () => {
 
-  const { isLoading, error, data: mostRequestedBets } = useQuery(['getBets'], betService.getBets);
-  const {data: bookmakers } = useQuery(['getBookmakers'], bookmakerService.getBookmakers);
+  let queryStr:String | undefined = undefined;
+  //let page:number = 0;
+  //let size:number = 5;
   const [listSize, setListSize] = useState(5);
+  const [page, setPage] = useState(0);
+  const { isLoading, error, data: mostRequested } = useQuery(['getGenericByPageAndSize',page,listSize,queryStr], 
+  () => {return genericService.getGenericByPageAndSize(page,listSize,queryStr)});
+  //const {data: bookmakers } = useQuery(['getBookmakers'], bookmakerService.getBookmakers);
+  
 
   const seeMoreHandler = () => {
     setListSize(listSize + 5);
+  };
+  
+  const onSearchClicked = (text:String) => {
+    if (text !== "") {
+      queryStr = text;
+    }
+  };
+
+  const onTextChange = (e:any) => {
+    //onSearchClicked(e.target.value);
+    if(e.nativeEvent.key == "Enter"){
+      onSearchClicked(e.target.value);
+    }
   };
 
   return (
@@ -43,11 +64,13 @@ const Home: NextPage = () => {
       <CustomHeader />
       <Container>
         <HomePageItem>
-          <SearchBets />
+          <SearchBets
+          onTextChange={onTextChange}
+          />
         </HomePageItem>
 
         <HomePageItem
-          title="Matches"
+          //title="Matches"
           showSeeMore
           seeMoreHandler={seeMoreHandler}
         >
@@ -55,17 +78,17 @@ const Home: NextPage = () => {
             <CircularProgress />
           </CenteredComponent> : 
           <Column>
-            <MostRequestedBets mostRequestedBets={mostRequestedBets} size={listSize} />
+            <RequestedGenerics requestedGenerics={mostRequested} size={listSize} page={page} queryStr={queryStr} />
             
           </Column>}
         </HomePageItem>
-        <HomePageItem
+        {/* <HomePageItem
           title="Bookmakers"
           showSeeMore
           seeMoreHandler={seeMoreHandler}
         >
         <Bookmakers bookmakers={bookmakers} size={listSize}></Bookmakers>
-        </HomePageItem>
+        </HomePageItem> */}
       </Container>
 
       {/* <CreateBet/> */}

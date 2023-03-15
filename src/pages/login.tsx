@@ -58,7 +58,7 @@ export default function Login() {
   const router = useRouter();
 
   const usernameRef = useRef<HTMLInputElement>();
-
+  console.log('aqui');
 
   useEffect(() => {
     if (securityStore.logged) {
