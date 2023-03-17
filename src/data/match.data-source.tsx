@@ -10,8 +10,10 @@ export class MatchDataSource {
         const response = await this.http.getById(Endpoints.MATCHES, id);
         if (response.ok) {
             const matchResponse = await response.json();
+            console.log(matchResponse);
             matchResponse["expiredAt"] = matchResponse["expiredAt"]?new Date(matchResponse["expiredAt"]).getDate():null;
             matchResponse["createdAt"] = matchResponse["createdAt"]?new Date(matchResponse["createdAt"]).getDate():null;
+            console.log(matchResponse);
             return matchResponse as Match;
         } else {
             throw Error(response.statusText);

@@ -26,9 +26,10 @@ const bookmakerService = new BookmakerService();
 
 const Home: NextPage = () => {
 
-  let queryStr:String | undefined = undefined;
+  //let queryStr:String | undefined = undefined;
   //let page:number = 0;
   //let size:number = 5;
+  const [queryStr, setQueryStr] = useState("");
   const [listSize, setListSize] = useState(5);
   const [page, setPage] = useState(0);
   const { isLoading, error, data: mostRequested } = useQuery(['getGenericByPageAndSize',page,listSize,queryStr], 
@@ -39,17 +40,11 @@ const Home: NextPage = () => {
   const seeMoreHandler = () => {
     setListSize(listSize + 5);
   };
-  
-  const onSearchClicked = (text:String) => {
-    if (text !== "") {
-      queryStr = text;
-    }
-  };
 
-  const onTextChange = (e:any) => {
-    //onSearchClicked(e.target.value);
-    if(e.nativeEvent.key == "Enter"){
-      onSearchClicked(e.target.value);
+  const search = (text:string) => {
+    console.log(text.toUpperCase());
+    if (text !== "") {
+      setQueryStr(text.toUpperCase());
     }
   };
 
@@ -65,7 +60,7 @@ const Home: NextPage = () => {
       <Container>
         <HomePageItem>
           <SearchBets
-          onTextChange={onTextChange}
+          search={search}
           />
         </HomePageItem>
 
