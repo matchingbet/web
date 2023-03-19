@@ -1,4 +1,4 @@
-import {Collapse, Typography} from "@mui/material";
+import {Collapse, Skeleton, Typography} from "@mui/material";
 import Bet from "../../models/Bet";
 import React, {useState} from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -18,47 +18,91 @@ import {
     StyledTypographyTitle,
     StyledTypographyData
 } from "./BetCard.styles";
-import { Column } from "../../styles/shared-styles";
+import { Column, Row } from "../../styles/shared-styles";
+import { Generic } from "../../models/Generic";
+import { MatchService } from "../../services/MatchService";
+import { useQuery } from "react-query";
+import { format } from "date-fns";
+import { StyledAvatar } from "../StyledAvatar/StyledAvatar";
+import Option from "../../models/Option";
 
 
-interface BetCardProps {
-    bet: Bet
+interface MatchCardProps {
+    match: Generic
 }
 
-const DescriptionOdd = ({description, odd, ...style}: { description: string, odd: number, style?: {} }) => {
+const TitleOdd = ({options, ...style}: { options?: Option[], style?: {} }) => {
+
+    let count = 0;
+    let end = false;
+    return (
+        <DescriptionLine {...style}>
+            <Description> </Description> 
+            {!!options ? options.map(({id, name, description, odd}) => {
+                count++;
+                if(count <= 3)
+                    return (<Column>
+                                <StyledTypographyTitle variant="body2">
+                                    {name}
+                                </StyledTypographyTitle>
+                                <Odd>
+                                    {odd?.toPrecision(4)}
+                                </Odd>
+                            </Column>
+                        )
+                else if(!end){
+                    end = true;
+                    return(<Column>
+                        <StyledTypographyTitle variant="body2"></StyledTypographyTitle>
+                        <StyledTypographyTitle variant="body2">
+                            {"..."}
+                        </StyledTypographyTitle>
+                    </Column>
+                    )
+                }
+            }) : null}
+        </DescriptionLine>
+    );
+}
+
+
+
+const DescriptionOdd = ({description, name, odd, ...style}: { description: string, name: string, odd: number, style?: {} }) => {
 
     return (
         <DescriptionLine {...style}>
             <Description>
                 <Typography paragraph={true}>
-                    {description.slice(0, 80)}
+                    {description?.slice(0, 80)}
                 </Typography>
-            </Description>
-            <Column>
+            </Description> 
+            <DescriptionLine {...style}>
                 <StyledTypographyTitle variant="body2">
-                    SIM
+                    {name}
                 </StyledTypographyTitle>
                 <Odd>
-                    {odd}
+                    {odd?.toPrecision(4)}
                 </Odd>
-            </Column>
-            <Column>
-                <StyledTypographyTitle variant="body2">
-                    NÃO
-                </StyledTypographyTitle>
-                <Odd>
-                    {odd}
-                </Odd>
-            </Column>
+            </DescriptionLine>
         </DescriptionLine>
     );
 }
 
-export default function MostRequestedBetCard({bet}: BetCardProps) {
+const betService = new MatchService();
+
+export default function MostRequestedBetCard({match}: MatchCardProps) {
 
     const [expanded, setExpanded] = useState(false);
 
-    const {odd, description, innerBets} = bet;
+    const {id, name, description, photo} = match;
+
+    const convertdate = (myDate?:Date) => {
+        return !!myDate ? format(myDate, "'finaliza ' dd/MM/yyyy', às' H:mm"): ""
+    };
+
+    //mostRequested: { createdAt, expiredAt, options }
+    const { isLoading, error, data } = useQuery(['getMatchById',id], () => {return betService.getMatchById(id);});
+    console.log(data)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -68,56 +112,56 @@ export default function MostRequestedBetCard({bet}: BetCardProps) {
         <StyledCard>
             <StyledCardContentHeader onClick={handleExpandClick}>
                 <HeaderButton>
-                    <SportsVolleyballOutlinedIcon style={{backgroundColor: "#6B61F5", borderRadius: "20px", fontSize: "35px", padding: "5px", color: "white"}}></SportsVolleyballOutlinedIcon>
+                    {/* <SportsVolleyballOutlinedIcon style={{backgroundColor: "#6B61F5", borderRadius: "20px", fontSize: "35px", padding: "5px", color: "white"}}></SportsVolleyballOutlinedIcon> */}
+                    <StyledAvatar photoUrl={data?.photo} size={35} name={!!data?.name?data.name[0]:"M"} />
                     <Column>
                         <StyledTypographyTitle variant="body2">
-                            Campeonato Mundial Feminino
+                            {data?.name}
                         </StyledTypographyTitle>
-                        <StyledTypography variant="body2">
-                            VÔLEI
-                        </StyledTypography>
                     </Column>
-                    <StyledTypographyData paragraph={true}>
-                        10/07 - 12:00
-                    </StyledTypographyData>
                     <EventTimeAndExpandMore>
-                        {innerBets && innerBets.length > 0 ? <ExpandMore
+                        {<ExpandMore
                             expand={expanded}
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
                             aria-label="show more">
                             <ExpandMoreIcon/>
-                        </ExpandMore> : null}
+                        </ExpandMore> }
                     </EventTimeAndExpandMore>
                 </HeaderButton>
             </StyledCardContentHeader>
 
             {
-                innerBets && innerBets.length > 0 ?
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <StyledTypographyData paragraph={true}>
+                            {data?.description}
+                        </StyledTypographyData>
+                        <StyledTypographyData>
+                            {convertdate(  data?.expiredAt)}
+                        </StyledTypographyData>
                         <BodyCardContent>
-                            {innerBets ? innerBets.map(({id, description, odd}) => {
-                                return (
-                                    <DescriptionOdd
-                                        key={id}
-                                        style={{
-                                            marginBottom: '5px'
-                                        }}
-                                        description={description}
-                                        odd={odd}/>
-                                )
-                            }) : null}
-
-
+                        {!!data && !!data.options ? data.options.map(({id, name, description, odd}) => {
+                                            return (
+                                                <DescriptionOdd
+                                                    key={id}
+                                                    style={{
+                                                        marginBottom: '5px'
+                                                    }}
+                                                    description={description}
+                                                    name={name}
+                                                    odd={odd}/>
+                                            )
+                                        }) : null}
                         </BodyCardContent>
-                    </Collapse> :
-                    null
+                    </Collapse> 
             }
 
             <BodyCardContent>
-                <DescriptionOdd
-                    description={description}
-                    odd={odd}/>
+                <TitleOdd
+                    style={{
+                        marginBottom: '5px'
+                    }}
+                    options={data?.options}/>
             </BodyCardContent>
         </StyledCard>
     );

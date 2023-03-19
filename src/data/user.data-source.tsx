@@ -26,8 +26,18 @@ export class UserDataSource {
         }
     }
 
+    public async getUser(): Promise<User> {
+        const response = await this.http.getById(Endpoints.USERS);
+        if (response.ok) {
+            const userResponse = await response.json();
+            return userResponse as User;
+        } else {
+            throw Error(response.statusText);
+        }
+    }
+
     public async getUserById(id: number): Promise<User> {
-        const response = await this.http.get(Endpoints.USERS, id);
+        const response = await this.http.getById(Endpoints.USERS, id);
         if (response.ok) {
             const userResponse = await response.json();
             return userResponse as User;

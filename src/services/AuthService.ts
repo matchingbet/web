@@ -32,10 +32,11 @@ export class AuthService implements IAuthService {
       const body = await response.json();
       const authToken = body["access_token"];
       const refreshToken = body["refresh_token"];
+      const expiresIn = Date.now() + (body["expires_in"] * 1000);
       console.log(body["users_id"]);
-      useSecurityStore.setState(() => ({ token: authToken || "", userId: body["users_id"], logged: true, refreshToken: refreshToken }));
+      useSecurityStore.setState(() => ({ token: authToken || "", userId: body["users_id"], logged: true, refreshToken: refreshToken, expiresIn: expiresIn }));
     } else {
-      useSecurityStore.setState(() => ({ token: undefined, userId: undefined, logged: false, refreshToken: undefined }));
+      useSecurityStore.setState(() => ({ token: undefined, userId: undefined, logged: false, refreshToken: undefined, expiresIn: undefined }));
     }
     return response;
   }

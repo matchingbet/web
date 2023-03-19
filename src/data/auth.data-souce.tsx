@@ -12,7 +12,7 @@ export class AuthDataSource {
         const token = `bearer ${jwtToken || ""}`;
         console.log(token);
         headers.set("Authorization", token);
-        const response = await this.http.get(Endpoints.USERS, undefined, { headers: headers });
+        const response = await this.http.getById(Endpoints.USERS, undefined, { headers: headers });
         if (response.ok) {
             const userResponse = await response.json();
             return userResponse as User;
@@ -22,7 +22,7 @@ export class AuthDataSource {
     }
 
     public async getUserById(id: number): Promise<User> {
-        const response = await this.http.get(Endpoints.USERS, id);
+        const response = await this.http.getById(Endpoints.USERS, id);
         console.log(response);
         if (response.ok) {
             const userResponse = await response.json();
@@ -36,7 +36,19 @@ export class AuthDataSource {
         const basicToken = process.env.NEXT_PUBLIC_BASIC_API_TOKEN;
         const options = {"Authorization": `Basic ${basicToken}`, "Content-Type": "application/x-www-form-urlencoded"}
         const serverCredentials = { ...credentials, "grant_type": "password"};
-        const response = await this.http.post("/oauth/token", serverCredentials, options);
+        const response = await this.http.login("/oauth/token", serverCredentials, options);
+        if (response.ok) {
+            return response;
+        } else {
+            throw Error(response.statusText);
+        }
+    }
+
+    public async loginWithoutCredencials(): Promise<Response> {
+        const basicToken = process.env.NEXT_PUBLIC_ANONIMOUS_API_TOKEN;
+        const options = {"Authorization": `Basic ${basicToken}`, "Content-Type": "application/x-www-form-urlencoded"}
+        const serverCredentials = { "grant_type": "client_credentials"};
+        const response = await this.http.login("/oauth/token", serverCredentials, options);
         if (response.ok) {
             return response;
         } else {
